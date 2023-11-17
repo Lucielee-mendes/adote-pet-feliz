@@ -5,7 +5,7 @@ export const formulario = styled.div`
   grid-template-columns: 1fr 1fr; /* Divide a tela em duas colunas */
   grid-template-areas: "areaImg areaForm"; /* Define as áreas */
   height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
   width: 100%;
 `;
 
@@ -62,7 +62,7 @@ export const areaForm = styled.div`
     min-width: 12rem;
     margin: 0 auto;
     text-align: left;    
-    
+    display: inline-block;
 
     label{
       display: block;
@@ -91,7 +91,7 @@ export const areaForm = styled.div`
 .buttonarea{
   button{
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 20px;
       background-color: #A5D96D;
       color: white;
       border: 0 solid;
@@ -108,6 +108,38 @@ export const areaForm = styled.div`
     margin-right: auto;
     display: block;
     
+  }
+
+  #divIMG{
+    max-width: 80%;
+    display: inline-block;
+
+    input{
+        max-width: 60%;
+        display: inline-block;
+        vertical-align: text-bottom;
+        margin-right: 5px;
+    }
+  }
+
+  .previewImage{
+    display: inline-block;
+  }
+  .imgPerfil{
+    width: 4rem;
+    height:4rem;
+    
+  }
+
+  .checkArea{
+    display: inline-block;
+    label, input{
+        display: inline-block; 
+        
+    }
+  }
+  select{
+    margin-bottom: 10px;
   }
 `;
 

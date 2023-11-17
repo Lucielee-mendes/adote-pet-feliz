@@ -61,7 +61,7 @@ const LoginPage = () => {
                     <div className='buttonarea'>
                         <button onClick={handleLogin}>Entrar</button>
                     </div>
-                    <p>Não tenho cadastro</p>
+                    <a href={"/cadastro"}>Não tenho cadastro</a>
                 </S.area>
             </S.areaForm>
         </S.formulario>
