@@ -19,7 +19,27 @@ const Cadastro = () => {
     const [isvalidEmail, setIsValidEmail] = useState(null)
     const [isValidTelefone, setIsValidTelefone] = useState(null);
     const [numberPhone, setNumberPhone] = useState('')
+    const [sobreVoce, setSobreVoce] = useState("");
+    const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
+    const [previewImagem, setPreviewImagem] = useState(null);
 
+    const handleArquivoChange = (e) => {
+        const file = e.target.files[0];
+
+        if (file) {
+            setArquivoSelecionado(file);
+
+            const leitor = new FileReader();
+
+            leitor.onloadend = () => {
+                setPreviewImagem(leitor.result);
+            };
+
+            leitor.readAsDataURL(file);
+        }
+    };
+
+    console.log({ arquivoSelecionado })
 
     const validateEmail = (inputEmail) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -46,7 +66,7 @@ const Cadastro = () => {
         const telefoneRegex = /^\d{10,}$/; // Pelo menos 10 dígitos numéricos
         const isValid = telefoneRegex.test(inputTelefone);
         setIsValidTelefone(isValid);
-      };
+    };
 
 
     const handleCadastro = () => {
@@ -59,7 +79,7 @@ const Cadastro = () => {
 
             }
 
-            if (whatsApp.length > 0){
+            if (whatsApp.length > 0) {
                 validateTelefone(whatsApp);
             }
 
@@ -121,8 +141,8 @@ const Cadastro = () => {
                 <p>Preencha seus dados a seguir</p>
                 <S.area>
                     {errorCadastro?.length > 0 && (<p style={{ color: "red", textDecoration: "none", fontWeight: "bold" }}>{errorCadastro}</p>)}
-                    {isvalidEmail == false && <p style={{ color: 'red', textDecoration: 'none', fontWeight: "bold" }}>E-mail invalido</p>}
-                    {isValidTelefone == false && <p style={{ color: 'red', textDecoration: 'none', fontWeight: "bold" }}>whatsApp invalido</p>}
+                    {isvalidEmail === false && <p style={{ color: 'red', textDecoration: 'none', fontWeight: "bold" }}>E-mail invalido</p>}
+                    {isValidTelefone === false && <p style={{ color: 'red', textDecoration: 'none', fontWeight: "bold" }}>whatsApp invalido</p>}
                     {isCadastro && <p style={{ color: 'green', textDecoration: 'none', fontWeight: "bold" }}>Cadastro com sucesso</p>}
                     {confereEmail?.length > 0 && (<p style={{ color: "red", textDecoration: "none", fontWeight: "bold" }}>{confereEmail}</p>)}
 
@@ -150,13 +170,13 @@ const Cadastro = () => {
                     </div>
                     <div className='areaForm'>
                         <label>Telefone:</label>
-                        <input onChange={(e) => setTeletone(e.target.value)} />
+                        <input value={telefone} onChange={(e) => setTeletone(e.target.value)} />
                     </div>
                     <div className='areaForm' id='divIMG'>
                         <label>Foto principal:</label>
-                        <input type='file' />
+                        <input type='file' onChange={handleArquivoChange} />
                         <div className='previewImage'>
-                            <img className='imgPerfil' src={imgPerfil} alt="Perfil" />
+                            <img className='imgPerfil' src={previewImagem ? previewImagem : imgPerfil} alt="Perfil" />
                         </div>
                     </div>
                     <div className='areaForm'>
@@ -244,7 +264,7 @@ const Cadastro = () => {
                     </div>
                     <div className='areaForm'>
                         <label >Sobre você</label>
-                        <textarea cols="30" rows="10"></textarea>
+                        <textarea cols="30" rows="10" value={sobreVoce} onChange={(e) => setSobreVoce(e.target.value)}></textarea>
 
                     </div>
 

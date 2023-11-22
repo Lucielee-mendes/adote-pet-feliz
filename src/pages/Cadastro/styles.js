@@ -128,6 +128,7 @@ export const areaForm = styled.div`
   .imgPerfil{
     width: 4rem;
     height:4rem;
+    border-radius: 10rem;
     
   }
 
@@ -158,5 +159,6 @@ a{
   font-size: 12px;
   text-decoration: underline;
   margin-top: 20px;
+  color: blue;
 }
 `

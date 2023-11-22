@@ -24,7 +24,7 @@ const EsqueceuSenha = () => {
         }
 
         if(password.length>0 && confirmePassword.length>0){
-            if(password == confirmePassword){
+            if(password === confirmePassword){
                 setRecuperaSenha(true)
                 setErrorSalvarSenha("")
             }
@@ -45,10 +45,10 @@ const EsqueceuSenha = () => {
                 <img className='imgLogo' src={imgLogo} alt="Logo" />
                 <h2>Esqueci minha senha</h2>
                <S.area>
-               <div className='areaForm'>
                     {errorSalvarSenha?.length > 0 && (<p style={{ color: "red",textDecoration:"none", fontWeight:"bold" }}>{errorSalvarSenha}</p>)}
                     {senhasConferem?.length > 0 && (<p style={{ color: "red",textDecoration:"none", fontWeight:"bold" }}>{senhasConferem}</p>)}
                     {recuperaSenha && <p style={{ color: 'green', textDecoration: 'none',  fontWeight:"bold"  }}>Senha alterada com sucesso!</p>}
+               <div className='areaForm'>
 
                     <label>Digite nova senha:</label>
                     <input type='password' onChange={(e)=>setPassword(e.target.value)}/>
@@ -60,7 +60,7 @@ const EsqueceuSenha = () => {
                <div className='buttonarea'>
                 <button onClick={handlePassword}>Salvar</button>
                </div>
-               <p>Não tenho cadastro</p>
+               <a href={"/cadastro"}>Não tenho cadastro</a>
                </S.area>
             </S.areaForm>
         </S.formulario>

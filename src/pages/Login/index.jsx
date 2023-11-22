@@ -45,11 +45,11 @@ const LoginPage = () => {
                 <h2>Faça seu login</h2>
                 <p>Para Divulgar ou Adotar um animalzinho, você precisa ter um cadastro</p>
                 <S.area>
-                    <div className='areaForm'>
-                        {errorLogin?.length > 0 && (<p style={{ color: "red",textDecoration:"none", fontWeight:"bold" }}>{errorLogin}</p>)}
-                        {isvalidEmail == false && <p style={{ color: 'red', textDecoration: 'none',  fontWeight:"bold"  }}>E-mail invalido</p>}
-                        {isLogin && <p style={{ color: 'green', textDecoration: 'none',  fontWeight:"bold"  }}>Login efetuado com sucesso</p>}
+                    {errorLogin?.length > 0 && (<p style={{ color: "red",textDecoration:"none", fontWeight:"bold" }}>{errorLogin}</p>)}
+                    {isvalidEmail === false && <p style={{ color: 'red', textDecoration: 'none',  fontWeight:"bold"  }}>E-mail invalido</p>}
+                    {isLogin && <p style={{ color: 'green', textDecoration: 'none',  fontWeight:"bold"  }}>Login efetuado com sucesso</p>}
 
+                    <div className='areaForm'>
                         <label>E-mail:</label>
                         <input placeholder='seuEmail@exemple.com' onChange={(e) => setEmail(e.target.value)} />
                     </div>
