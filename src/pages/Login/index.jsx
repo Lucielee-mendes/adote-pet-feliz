@@ -2,6 +2,8 @@ import * as S from './styles'
 import imgBackground from '../../imagens/Login1.png'
 import imgLogo from '../../imagens/image0 1logo.png'
 import { useState } from 'react';
+import axios from 'axios';
+
 const LoginPage = () => {
     const [isLogin, setIsLogin] = useState(false) // isso é um estado local uma constante que vai ser definida para essa pagina
     const [email, setEmail] = useState("")
@@ -16,7 +18,7 @@ const LoginPage = () => {
         setIsValidEmail(isValid);
     };
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (isLogin === false) {
             if (email.length === 0 || password.length === 0) {
                 setErrorLogin("Preencha todos os campos")
@@ -27,13 +29,31 @@ const LoginPage = () => {
             }
 
             if (isvalidEmail && password.length > 0) {
-                setIsLogin(true)
-                setErrorLogin("")
+                try {
+                  // Fazer a chamada para o backend
+                  const response = await axios.post('http://localhost:3001/login', {
+                    email,
+                    senha: password,
+                  });
+        
+                  console.log(response.data); // Exemplo: { message: 'Fez login' }
+                  if (response.data.message === 'Login efetuado com sucesso') {
+                    setIsLogin(true);
+                    setErrorLogin('');
+                } else {
+                    setIsLogin(false);
+                    setErrorLogin('Erro ao fazer login. Verifique suas credenciais.');
+                }
+            } catch (error) {
+                console.error(error);
+                setIsLogin(false);
+                setErrorLogin('Erro ao fazer login. Verifique sua conexão.');
+            }
             } else {
                 setIsLogin(false)
             }
         }
-    }
+    };
 
     return (
         <S.formulario>

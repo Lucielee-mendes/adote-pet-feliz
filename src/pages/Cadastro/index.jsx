@@ -13,7 +13,7 @@ const Cadastro = () => {
     const [confirmEmail, setConfirmEmail] = useState("")
     const [password, setPassword] = useState("")
     const [whatsApp, setWhatsApp] = useState("")
-    const [errorCadastro, setErrorCadrastro] = useState('')
+    const [errorCadastro, setErrorCadastro] = useState('')
     const [telefone, setTeletone] = useState("")
     const [confereEmail, setConfereEmail] = useState("")
     const [isvalidEmail, setIsValidEmail] = useState(null)
@@ -22,7 +22,6 @@ const Cadastro = () => {
     const [sobreVoce, setSobreVoce] = useState("");
     const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
-
     const handleArquivoChange = (e) => {
         const file = e.target.files[0];
 
@@ -39,7 +38,7 @@ const Cadastro = () => {
         }
     };
 
-    console.log({ arquivoSelecionado })
+
 
     const validateEmail = (inputEmail) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -69,10 +68,11 @@ const Cadastro = () => {
     };
 
 
-    const handleCadastro = () => {
+    const handleCadastro = async () => {
         if (isCadastro === false) {
             if (nome.length === 0 || email.length === 0 || confirmEmail.length === 0 || password.length === 0 || whatsApp.length === 0) {
-                setErrorCadrastro("Preencha todos os campos")
+                setErrorCadastro("Preencha todos os campos")
+                return;
             }
             if (email.length > 0) {
                 validateEmail(email);
@@ -85,15 +85,53 @@ const Cadastro = () => {
 
             if (email !== confirmEmail) {
                 setConfereEmail("E-mail não estão iguais")
-                setErrorCadrastro("")
+                setErrorCadastro("")
+                return;
             }
 
 
             if (isvalidEmail && password.length > 0) {
-                setIsCadastro(true)
-                setErrorCadrastro("")
+                const payload = {
+                    nome,
+                    email,
+                    confirmEmail,
+                    senha: password,
+                    whatsApp,
+                    telefone,
+                    fotoPrincipal: arquivoSelecionado ? arquivoSelecionado.name : null,
+                    estado: estadoSelecionado,
+                    cidade: cidadeSelecionada,
+                    possuiCasaTelada,
+                    possuiDisponibilidadeCastrar,
+                    possuiDisponibilidadeVacinar,
+                    sobreVoce,
+
+                };
+                try {
+                    const response = await fetch('http://localhost:3001/cadastro', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        setIsCadastro(true);
+                        setErrorCadastro('');
+                    } else {
+                        setIsCadastro(false);
+                        setErrorCadastro(data.error || 'Erro ao cadastrar usuário');
+                    }
+                } catch (error) {
+                    console.error('Erro ao cadastrar usuário:', error);
+                    setIsCadastro(false);
+                    setErrorCadastro('Erro ao cadastrar usuário');
+                }
             } else {
-                setIsCadastro(false)
+                setIsCadastro(false);
             }
         }
     }
