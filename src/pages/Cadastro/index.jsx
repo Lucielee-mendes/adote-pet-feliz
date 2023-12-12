@@ -4,6 +4,8 @@ import imgLogo from '../../imagens/image0 1logo.png'
 import imgPerfil from '../../imagens/download (2) 1.png'
 import { useState } from 'react';
 import estados from './estados.json'
+import axios from 'axios';
+
 
 const Cadastro = () => {
 
@@ -108,22 +110,15 @@ const Cadastro = () => {
 
                 };
                 try {
-                    const response = await fetch('http://localhost:3001/cadastro', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(payload),
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
+                    // Usando axios para fazer a chamada para o backend
+                    const response = await axios.post('http://localhost:3001/cadastro', payload);
+    
+                    if (response.status === 201) {
                         setIsCadastro(true);
                         setErrorCadastro('');
                     } else {
                         setIsCadastro(false);
-                        setErrorCadastro(data.error || 'Erro ao cadastrar usuário');
+                        setErrorCadastro(response.data.error || 'Erro ao cadastrar usuário');
                     }
                 } catch (error) {
                     console.error('Erro ao cadastrar usuário:', error);
