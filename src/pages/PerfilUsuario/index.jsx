@@ -10,12 +10,14 @@ import axios from 'axios';
 const PerfilUsuario = () => {
     const { userId } = useParams();
     const [userData, setUserData] = useState(null);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:3001/perfilUsuario/${userId}`);
                 console.log('Response data:', response.data);
                 setUserData(response.data);
+
 
             } catch (error) {
                 console.error('Erro ao obter dados do usuário:', error);
@@ -26,6 +28,7 @@ const PerfilUsuario = () => {
             const storedUserData = JSON.parse(localStorage.getItem('userData'));
             if (storedUserData) {
                 setUserData(storedUserData);
+
             } else {
                 fetchData();
             }
@@ -55,7 +58,7 @@ const PerfilUsuario = () => {
                 </S.areaMenu>
                 <S.area>
                     <S.secaoPerfil>
-                        <img className='imgPerfil' src={imgPerfil} alt="Perfil" />
+                        <img className='imgPerfil' src={`http://localhost:3001/files/${userData?.fotoPrincipal}`} alt="Perfil" />
                         <div className='informacoes'>
                             <p id='nome'>{userData?.nome || 'Nome Usuario'}</p>
                             <p id='cidade'>{`${userData?.cidade || 'Cidade'}, ${userData?.estado || 'Estado'}`}</p>

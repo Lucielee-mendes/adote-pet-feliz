@@ -30,11 +30,12 @@ const Cadastro = () => {
     const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
 
-
     const handleArquivoChange = (e) => {
         const file = e.target.files[0];
 
         if (file) {
+            
+
             setArquivoSelecionado(file);
 
             const leitor = new FileReader();
@@ -76,10 +77,10 @@ const Cadastro = () => {
         setIsValidTelefone(isValid);
     };
 
-    
+
 
     const handleCadastro = async () => {
-        
+
         if (isCadastro === false) {
             if (nome.length === 0 || email.length === 0 || confirmEmail.length === 0 || password.length === 0 || whatsApp.length === 0) {
                 setErrorCadastro("Preencha todos os campos")
@@ -120,13 +121,13 @@ const Cadastro = () => {
                 };
                 try {
                     const response = await axios.post('http://localhost:3001/cadastro', userData);
-    
-                    if (response.status === 201) {
-                      // Armazenar dados no localStorage após o cadastro bem-sucedido
-                      localStorage.setItem('userData', JSON.stringify(userData));
-                      setIsCadastro(true);
 
-                      history('/login');
+                    if (response.status === 201) {
+                        // Armazenar dados no localStorage após o cadastro bem-sucedido
+                        localStorage.setItem('userData', JSON.stringify(userData));
+                        setIsCadastro(true);
+
+                        history('/login');
                     } else {
                         setIsCadastro(false);
                         setErrorCadastro(response.data.error || 'Erro ao cadastrar usuário');
