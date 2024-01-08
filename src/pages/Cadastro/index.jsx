@@ -5,9 +5,14 @@ import imgPerfil from '../../imagens/download (2) 1.png'
 import { useState } from 'react';
 import estados from './estados.json'
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
+
 
 
 const Cadastro = () => {
+    const history = useNavigate();
 
     const [isCadastro, setIsCadastro] = useState(false) // isso é um estado local uma constante que vai ser definida para essa pagina
     const [nome, setNome] = useState("")
@@ -24,6 +29,8 @@ const Cadastro = () => {
     const [sobreVoce, setSobreVoce] = useState("");
     const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
+
+
     const handleArquivoChange = (e) => {
         const file = e.target.files[0];
 
@@ -69,8 +76,10 @@ const Cadastro = () => {
         setIsValidTelefone(isValid);
     };
 
+    
 
     const handleCadastro = async () => {
+        
         if (isCadastro === false) {
             if (nome.length === 0 || email.length === 0 || confirmEmail.length === 0 || password.length === 0 || whatsApp.length === 0) {
                 setErrorCadastro("Preencha todos os campos")
@@ -93,7 +102,7 @@ const Cadastro = () => {
 
 
             if (isvalidEmail && password.length > 0) {
-                const payload = {
+                const userData = {
                     nome,
                     email,
                     confirmEmail,
@@ -110,18 +119,21 @@ const Cadastro = () => {
 
                 };
                 try {
-                    // Usando axios para fazer a chamada para o backend
-                    const response = await axios.post('http://localhost:3001/cadastro', payload);
+                    const response = await axios.post('http://localhost:3001/cadastro', userData);
     
                     if (response.status === 201) {
-                        setIsCadastro(true);
-                        setErrorCadastro('');
+                      // Armazenar dados no localStorage após o cadastro bem-sucedido
+                      localStorage.setItem('userData', JSON.stringify(userData));
+                      setIsCadastro(true);
+
+                      history('/login');
                     } else {
                         setIsCadastro(false);
                         setErrorCadastro(response.data.error || 'Erro ao cadastrar usuário');
                     }
                 } catch (error) {
                     console.error('Erro ao cadastrar usuário:', error);
+                    console.error('Error response data:', error.response.data); // Adiciona esta linha para capturar detalhes da resposta
                     setIsCadastro(false);
                     setErrorCadastro('Erro ao cadastrar usuário');
                 }

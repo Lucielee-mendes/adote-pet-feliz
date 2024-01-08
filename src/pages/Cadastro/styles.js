@@ -150,7 +150,7 @@ padding: 40px;
 border-radius: 10px;
 max-width: 25rem;
 width: 100%;
-margin-top: 2.5rem0;
+margin-top: 2.5rem;
 margin-left: auto;
 margin-right: auto;
 box-sizing: border-box;

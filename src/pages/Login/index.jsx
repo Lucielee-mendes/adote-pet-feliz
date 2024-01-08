@@ -3,8 +3,11 @@ import imgBackground from '../../imagens/Login1.png'
 import imgLogo from '../../imagens/image0 1logo.png'
 import { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+    const history = useNavigate();
+
     const [isLogin, setIsLogin] = useState(false) // isso é um estado local uma constante que vai ser definida para essa pagina
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -30,25 +33,26 @@ const LoginPage = () => {
 
             if (isvalidEmail && password.length > 0) {
                 try {
-                  // Fazer a chamada para o backend
-                  const response = await axios.post('http://localhost:3001/login', {
-                    email,
-                    senha: password,
-                  });
-        
-                  console.log(response.data); // Exemplo: { message: 'Fez login' }
-                  if (response.data.message === 'Login efetuado com sucesso') {
-                    setIsLogin(true);
-                    setErrorLogin('');
-                } else {
+                    // Fazer a chamada para o backend
+                    const response = await axios.post('http://localhost:3001/login', {
+                        email,
+                        senha: password,
+                    });
+
+                    if (response.data.message === 'Login efetuado com sucesso') {
+                    
+                        localStorage.setItem('userData', JSON.stringify(response.data.user));
+                        history('/perfilUsuario/${userId}' + response.data.user.id);
+                        setErrorLogin('');
+                    } else {
+                        setIsLogin(false);
+                        setErrorLogin('Erro ao fazer login. Verifique suas credenciais.');
+                    }
+                } catch (error) {
+                    console.error(error);
                     setIsLogin(false);
-                    setErrorLogin('Erro ao fazer login. Verifique suas credenciais.');
+                    setErrorLogin('Erro ao fazer login. Verifique sua conexão.');
                 }
-            } catch (error) {
-                console.error(error);
-                setIsLogin(false);
-                setErrorLogin('Erro ao fazer login. Verifique sua conexão.');
-            }
             } else {
                 setIsLogin(false)
             }
@@ -65,9 +69,9 @@ const LoginPage = () => {
                 <h2>Faça seu login</h2>
                 <p>Para Divulgar ou Adotar um animalzinho, você precisa ter um cadastro</p>
                 <S.area>
-                    {errorLogin?.length > 0 && (<p style={{ color: "red",textDecoration:"none", fontWeight:"bold" }}>{errorLogin}</p>)}
-                    {isvalidEmail === false && <p style={{ color: 'red', textDecoration: 'none',  fontWeight:"bold"  }}>E-mail invalido</p>}
-                    {isLogin && <p style={{ color: 'green', textDecoration: 'none',  fontWeight:"bold"  }}>Login efetuado com sucesso</p>}
+                    {errorLogin?.length > 0 && (<p style={{ color: "red", textDecoration: "none", fontWeight: "bold" }}>{errorLogin}</p>)}
+                    {isvalidEmail === false && <p style={{ color: 'red', textDecoration: 'none', fontWeight: "bold" }}>E-mail invalido</p>}
+                    {isLogin && <p style={{ color: 'green', textDecoration: 'none', fontWeight: "bold" }}>Login efetuado com sucesso</p>}
 
                     <div className='areaForm'>
                         <label>E-mail:</label>
