@@ -15,9 +15,6 @@ export const areaPerfil = styled.div`
   box-sizing: border-box;
 
  
-  header{
-    background-color: white;
-  }
 
   &::before {
     content: '';
@@ -33,64 +30,9 @@ export const areaPerfil = styled.div`
 
     
 
-  .imgLogo{
-    max-width: 7rem;
-    max-height: 7rem;
-    margin-left: 1.5rem;
-    display: block;
-    
-  }
 
-  .areaCabecalho{
-    align-items: center;
-    display: flex;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
 
-    p{
-      display: inline-block;
-      margin-left: 1.5rem;
-      padding-left: 0.75rem;
-      padding-right: 0.75rem;
-      color: #48A111;
-      font-weight: bold;
-    }
-    button{
-      border-radius: 5px;
-      border: none;
-      background-color: #A5D96D;
-      color: white;
-      font-weight: bold;
-      padding: 7px;
-      position: absolute;
-      right: 50px;
-    }
-  }
 
-  footer{
-    background-color: #A5D96D;
-    min-height: 1rem;
-    .areaAllRodape{
-      text-align: center;
-    }
-    .areaRodape{
-      display: inline-block;
-      margin: 5rem;
-      margin-bottom: 0;
-      margin-top: 0.5rem;
-      vertical-align: top;
-      color: white;
-      font-weight: bold;
-    }
-    .imgRodape{
-    max-width: 9rem;
-    max-height: 9rem;
-    display: block;
-    text-align: center;
-    margin: auto;
-
-    }
-  }
 `;
 
 export const areaMenu = styled.div`
@@ -158,6 +100,7 @@ display: block;
   .contato{
     display: inline-block;
     margin-left: 15px;
+    margin-bottom: 15px;
     
     p{
       margin-top: 0;
@@ -190,6 +133,17 @@ display: block;
       margin-left: 0;
       cursor: pointer;
     }
+  }
+
+
+  .infoLabel{
+    
+    p, span{
+      display: inline-block;
+      margin: 5px;
+      
+    }
+    
   }
 `
 export const Divulgados = styled.div`

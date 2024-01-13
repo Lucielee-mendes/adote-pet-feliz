@@ -14,7 +14,7 @@ function App() {
         <Route path="/esqueciSenha" element={<EsqueceuSenha/>}/>
         <Route path="/cadastro" element={<Cadastro/>}/>
         <Route path="/perfilUsuario/:userId" element={<PerfilUsuario />} />
-
+        
       </Routes>
     </BrowserRouter>
   );

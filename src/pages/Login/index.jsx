@@ -42,7 +42,7 @@ const LoginPage = () => {
                     if (response.data.message === 'Login efetuado com sucesso') {
                     
                         localStorage.setItem('userData', JSON.stringify(response.data.user));
-                        history('/perfilUsuario/${userId}' + response.data.user.id);
+                        history(`/perfilUsuario/${response.data.user._id}`);
                         setErrorLogin('');
                     } else {
                         setIsLogin(false);
