@@ -28,11 +28,6 @@ export const areaPerfil = styled.div`
     z-index: -1; /* Coloca o pseudo-elemento abaixo do conteúdo */
   }
 
-    
-
-
-
-
 `;
 
 export const areaMenu = styled.div`

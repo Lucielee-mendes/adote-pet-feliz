@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import EsqueceuSenha from './pages/EsqueceuSenha';
 import Cadastro from './pages/Cadastro';
 import PerfilUsuario from './pages/PerfilUsuario';
+import CadastroPet from './pages/CadastroPet';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/esqueciSenha" element={<EsqueceuSenha/>}/>
         <Route path="/cadastro" element={<Cadastro/>}/>
         <Route path="/perfilUsuario/:userId" element={<PerfilUsuario />} />
+        <Route path="/cadastroPet" element={<CadastroPet/>}/>
         
       </Routes>
     </BrowserRouter>

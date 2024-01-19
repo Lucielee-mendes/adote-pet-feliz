@@ -9,8 +9,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-
-
 const Cadastro = () => {
     const history = useNavigate();
 
@@ -130,6 +128,7 @@ const Cadastro = () => {
                         history('/login');
                     } else {
                         setIsCadastro(false);
+                        console.error('Error response data:', response.data || 'No response data available'); // Alteração aqui
                         setErrorCadastro(response.data.error || 'Erro ao cadastrar usuário');
                     }
                 } catch (error) {
@@ -220,7 +219,7 @@ const Cadastro = () => {
                     </div>
                     <div className='areaForm' id='divIMG'>
                         <label>Foto principal:</label>
-                        <input type='file' onChange={handleArquivoChange} />
+                        <input type='file' name="file" onChange={handleArquivoChange} />
                         <div className='previewImage'>
                             <img className='imgPerfil' src={previewImagem ? previewImagem : imgPerfil} alt="Perfil" />
                         </div>
