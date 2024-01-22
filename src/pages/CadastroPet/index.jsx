@@ -6,10 +6,13 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import imgPerfil from '../../imagens/pet-avatar 1.png'
+import { useParams } from 'react-router-dom';
+
 
 
 
 const CadastroPet = () => {
+    const { userId } = useParams();
     const [arquivosSelecionados, setArquivosSelecionados] = useState([]);
     const [previewImagem, setPreviewImagem] = useState(null);
     const [errorCadastroPet, setErrorCadastroPet] = useState('');
@@ -113,11 +116,15 @@ const CadastroPet = () => {
     };
 
     const handleCadastroPet = async () => {
+        
         if (successCadastroPet === false) {
 
             if (!validateCadastroPet()) {
                 return;
             }
+            const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData'))._id : '';
+            console.log('userId enviado ao backend:', userId);
+
             const petData = {
                 nomePet,
                 especie,
@@ -135,14 +142,13 @@ const CadastroPet = () => {
                 fotos: arquivosSelecionados.map(arquivo => ({
                     url: URL.createObjectURL(arquivo),
                     file: arquivo
-                }))
+                })),
+                userId, 
             };
 
             try {
-                // Substitua a URL abaixo pela sua endpoint de cadastro de pet
-                const response = await axios.post('http://localhost:3001/cadastroPet', petData);
-
-                if (response.status === 201) {
+                const response = await axios.post(`http://localhost:3001/cadastroPet/${userId}`, petData);
+                if (response.data && response.data.pet) {
                     setSuccessCadastroPet(true);
                     // Lógica adicional após o cadastro bem-sucedido
                 } else {

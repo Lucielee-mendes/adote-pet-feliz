@@ -4,7 +4,6 @@ export const cadastroPet = styled.div`
   display: grid;
   height: 100vh;
   overflow-y: auto;
-
   width: 100%;
 `;
 
@@ -55,6 +54,7 @@ export const area = styled.div`
   margin-right: 5rem;
   padding: 1rem 6rem;
   box-sizing: border-box;
+   padding: 60px;
 
 
   #cabecalho{

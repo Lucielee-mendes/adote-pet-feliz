@@ -78,7 +78,7 @@ const PerfilUsuario = () => {
                             {isOwnProfile && (
                                 <>
                                     <div className='botao1'>
-                                        <button>Cadastrar novo pet</button>
+                                        <button onClick={() => window.location.href = "/cadastroPet/:userId"}>Cadastrar novo pet</button>
                                     </div>
                                     <div className='botao2'>
                                         <button>Editar Perfil</button>
