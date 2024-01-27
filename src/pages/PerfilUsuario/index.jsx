@@ -8,10 +8,10 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 
 const PerfilUsuario = () => {
-    const {userId } = useParams();
+    const { userId } = useParams();
     const [userData, setUserData] = useState(null);
     const [isOwnProfile, setIsOwnProfile] = useState(false);
-
+    const [image, setImage] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -38,7 +38,7 @@ const PerfilUsuario = () => {
             const storedUserData = JSON.parse(localStorage.getItem('userData'));
             if (storedUserData) {
                 setUserData(storedUserData);
-                
+
                 if (storedUserData._id === userId) {
                     setIsOwnProfile(true);
                 } else {
@@ -50,6 +50,14 @@ const PerfilUsuario = () => {
             }
         }
     }, [userId, userData]);
+
+ useEffect(()=>{
+    const getImage = async ()=>{
+        const response = await axios.get(`http://localhost:3001/getImagem/${userData?.fotoPrincipal}`);
+        setImage(response.config.url)
+    }
+    userData && getImage()
+ },[userData])
 
 
 
@@ -63,7 +71,7 @@ const PerfilUsuario = () => {
                 </S.areaMenu>
                 <S.area>
                     <S.secaoPerfil>
-                        <img className='imgPerfil' src={`http://localhost:3001/files/${userData?.fotoPrincipal}` || { imgPerfil }} alt="Perfil" />
+                        <img className='imgPerfil' src={image} alt="Perfil" />
                         <div className='informacoes'>
                             <p id='nome'>{userData?.nome || 'Nome Usuario'}</p>
                             <p id='cidade'>{`${userData?.cidade || 'Cidade'}, ${userData?.estado || 'Estado'}`}</p>

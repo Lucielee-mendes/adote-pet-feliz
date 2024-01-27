@@ -27,6 +27,7 @@ const Cadastro = () => {
     const [sobreVoce, setSobreVoce] = useState("");
     const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
+     
 
     const handleArquivoChange = (e) => {
         const file = e.target.files[0];
@@ -101,6 +102,9 @@ const Cadastro = () => {
 
 
             if (isvalidEmail && password.length > 0) {
+                const formData = new FormData();
+                formData.append('image', arquivoSelecionado);
+               
                 const userData = {
                     nome,
                     email,
@@ -108,7 +112,6 @@ const Cadastro = () => {
                     senha: password,
                     whatsApp,
                     telefone,
-                    fotoPrincipal: arquivoSelecionado ? arquivoSelecionado.name : null,
                     estado: estadoSelecionado,
                     cidade: cidadeSelecionada,
                     possuiCasaTelada,
@@ -116,9 +119,11 @@ const Cadastro = () => {
                     possuiDisponibilidadeVacinar,
                     sobreVoce,
 
-                };
+                }; 
+                formData.append('json', JSON.stringify(userData))  
+                    
                 try {
-                    const response = await axios.post('http://localhost:3001/cadastro', userData);
+                    const response = await axios.post('http://localhost:3001/cadastro', formData);
 
                     if (response.status === 201) {
                         // Armazenar dados no localStorage após o cadastro bem-sucedido
