@@ -71,7 +71,7 @@ const PerfilUsuario = () => {
                 </S.areaMenu>
                 <S.area>
                     <S.secaoPerfil>
-                        <img className='imgPerfil' src={image} alt="Perfil" />
+                        <img className='imgPerfil' src={image || imgPerfil} alt="Perfil" />
                         <div className='informacoes'>
                             <p id='nome'>{userData?.nome || 'Nome Usuario'}</p>
                             <p id='cidade'>{`${userData?.cidade || 'Cidade'}, ${userData?.estado || 'Estado'}`}</p>

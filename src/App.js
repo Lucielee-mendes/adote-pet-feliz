@@ -6,6 +6,7 @@ import EsqueceuSenha from './pages/EsqueceuSenha';
 import Cadastro from './pages/Cadastro';
 import PerfilUsuario from './pages/PerfilUsuario';
 import CadastroPet from './pages/CadastroPet';
+import PerfilPet from './pages/PerfilPet';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/cadastro" element={<Cadastro/>}/>
         <Route path="/perfilUsuario/:userId" element={<PerfilUsuario />} />
         <Route path="/cadastroPet/:userId" element={<CadastroPet />} />
+        <Route path="/perfilPet/:petId" element={<PerfilPet/>} />
         
       </Routes>
     </BrowserRouter>
