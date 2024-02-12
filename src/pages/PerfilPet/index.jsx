@@ -14,6 +14,7 @@ import axios from 'axios';
 const PerfilPet = () => {
     const { petId } = useParams();
     const [petData, setPetData] = useState(null);
+    const [image, setImage] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
@@ -40,7 +41,13 @@ const PerfilPet = () => {
         }
     }, [petId, petData]);
 
-
+    useEffect(()=>{
+        const getImage = async ()=>{
+            const response = await axios.get(`http://localhost:3001/getImagem/${petData?.fotos}`);
+            setImage(response.config.url)
+        }
+        petData && getImage()
+     },[petData])
 
     return (
         <S.perfil>
@@ -53,7 +60,7 @@ const PerfilPet = () => {
                 </S.areaMenu>
                 <S.area>
                     <S.secaoPerfil>
-                        <img className='imgPerfil' src={imgPerfil} alt="Perfil" />
+                        <img className='imgPerfil' src={image || imgPerfil} alt="Perfil" />
                         <div className='informacoes'>
                             <p id='nome'>{petData?.nomePet || 'Nome pet'}</p>
                             <p id='info'>{`${petData?.especie || 'Espécie '}| ${petData?.sexo || 'Sexo '}| ${petData?.idade || 'Idade '}| ${petData?.porte || 'Porte'}`}</p>

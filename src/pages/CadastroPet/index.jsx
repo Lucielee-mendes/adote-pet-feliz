@@ -7,11 +7,15 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import imgPerfil from '../../imagens/pet-avatar 1.png'
 import { useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 
 
 
 const CadastroPet = () => {
+    const navigate = useNavigate();
+
     const { userId } = useParams();
     const [arquivosSelecionados, setArquivosSelecionados] = useState([]);
     const [previewImagem, setPreviewImagem] = useState(null);
@@ -116,40 +120,50 @@ const CadastroPet = () => {
     };
 
     const handleCadastroPet = async () => {
-        
+
         if (successCadastroPet === false) {
 
             if (!validateCadastroPet()) {
                 return;
             }
+            if (!arquivosSelecionados || arquivosSelecionados.length === 0) {
+                console.error('Nenhuma foto selecionada.');
+                return;
+            }
             const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData'))._id : '';
             console.log('userId enviado ao backend:', userId);
 
-            const petData = {
-                nomePet,
-                especie,
-                sexo,
-                idade,
-                porte,
-                raca,
-                sobrePet,
-                cuidadosVeterinarios,
-                temperamento,
-                viveBem,
-                sociavelCom,
-                estado: estadoSelecionado,
-                cidade: cidadeSelecionada,
-                fotos: arquivosSelecionados.map(arquivo => ({
-                    url: URL.createObjectURL(arquivo),
-                    file: arquivo
-                })),
-                userId, 
-            };
+            const formData = new FormData();
 
+         
+            arquivosSelecionados.forEach((arquivo, index) => {
+            formData.append(`image`, arquivo);
+        });
+
+        const petData = {
+            nomePet,
+            especie,
+            sexo,
+            idade,
+            porte,
+            raca,
+            sobrePet,
+            cuidadosVeterinarios,
+            temperamento,
+            viveBem,
+            sociavelCom,
+            estado: estadoSelecionado,
+            cidade: cidadeSelecionada,
+            userId,
+        };
+
+        formData.append('json', JSON.stringify(petData));
             try {
-                const response = await axios.post(`http://localhost:3001/cadastroPet/${userId}`, petData);
-                if (response.data && response.data.pet) {
+                const response = await axios.post(`http://localhost:3001/cadastroPet/${userId}`, formData);
+                if (response.status === 201 && response.data && response.data.pet) {
                     setSuccessCadastroPet(true);
+                    navigate(`/perfilPet/${response.data.pet._id}`);
+
                     // Lógica adicional após o cadastro bem-sucedido
                 } else {
                     setSuccessCadastroPet(false);
@@ -162,7 +176,7 @@ const CadastroPet = () => {
                 setErrorCadastroPet('Erro ao cadastrar pet');
             }
 
-        } 
+        }
     };
 
 
@@ -266,7 +280,7 @@ const CadastroPet = () => {
                     </div>
                     <div className='areaForm' id='divIMG'>
                         <label>Fotos pet:</label>
-                        <input type='file' name="file" multiple onChange={handleArquivoChange} />
+                        <input type='file' name="image" multiple onChange={handleArquivoChange} />
                         <div className='previewImage'>
                             {arquivosSelecionados.length > 0
                                 ? arquivosSelecionados.map((arquivo, index) => (

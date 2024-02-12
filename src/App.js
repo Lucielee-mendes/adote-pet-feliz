@@ -7,6 +7,7 @@ import Cadastro from './pages/Cadastro';
 import PerfilUsuario from './pages/PerfilUsuario';
 import CadastroPet from './pages/CadastroPet';
 import PerfilPet from './pages/PerfilPet';
+import QuemSomos from './pages/QuemSomos';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path="/perfilUsuario/:userId" element={<PerfilUsuario />} />
         <Route path="/cadastroPet/:userId" element={<CadastroPet />} />
         <Route path="/perfilPet/:petId" element={<PerfilPet/>} />
+        <Route path="/quemSomos" element={<QuemSomos/>} />
+
         
       </Routes>
     </BrowserRouter>
