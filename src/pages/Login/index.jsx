@@ -1,6 +1,6 @@
-import * as S from './styles'
-import imgBackground from '../../imagens/Login1.png'
-import imgLogo from '../../imagens/image0 1logo.png'
+import * as S from './styles';
+import imgBackground from '../../imagens/Login1.png';
+import imgLogo from '../../imagens/image0 1logo.png';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -8,53 +8,52 @@ import { useNavigate } from 'react-router-dom';
 const LoginPage = () => {
     const history = useNavigate();
 
-    const [isLogin, setIsLogin] = useState(false) // isso é um estado local uma constante que vai ser definida para essa pagina
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [errorLogin, setErrorLogin] = useState('')
-    const [isvalidEmail, setIsValidEmail] = useState(null)
-
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errorLogin, setErrorLogin] = useState('');
 
     const validateEmail = (inputEmail) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        const isValid = emailRegex.test(inputEmail);
-        setIsValidEmail(isValid);
+        return emailRegex.test(inputEmail);
     };
 
     const handleLogin = async () => {
-        if (isLogin === false) {
-            if (email.length === 0 || password.length === 0) {
-                setErrorLogin("Preencha todos os campos")
-            }
-            if (email.length > 0) {
-                validateEmail(email);
+        if (email.length === 0 || password.length === 0) {
+            setErrorLogin('Preencha todos os campos');
+            return;
+        }
 
-            }
+        if (!validateEmail(email)) {
+            setErrorLogin('E-mail inválido');
+            return;
+        }
 
-            if (isvalidEmail && password.length > 0) {
-                try {
-                    // Fazer a chamada para o backend
-                    const response = await axios.post('http://localhost:3001/login', {
-                        email,
-                        senha: password,
-                    });
+        try {
+            const response = await axios.post('http://localhost:3001/login', {
+                email,
+                senha: password,
+            });
 
-                    if (response.data.message === 'Login efetuado com sucesso') {
-                    
-                        localStorage.setItem('userData', JSON.stringify(response.data.user));
-                        history(`/perfilUsuario/${response.data.user._id}`);
-                        setErrorLogin('');
-                    } else {
-                        setIsLogin(false);
-                        setErrorLogin('Erro ao fazer login. Verifique suas credenciais.');
-                    }
-                } catch (error) {
-                    console.error(error);
-                    setIsLogin(false);
-                    setErrorLogin('Erro ao fazer login. Verifique sua conexão.');
+            if (response.status === 200 && response.data.message === 'Login bem-sucedido') {
+                if (response.data.user && response.data.user._id) {
+                    localStorage.setItem('userData', JSON.stringify(response.data.user));
+                    history(`/perfilUsuario/${response.data.user._id}`);
+                } else {
+                    setErrorLogin('Credenciais inválidas');
                 }
+            }  else {
+                if (response.data && response.data.error) {
+                    setErrorLogin(response.data.error);
+                } else {
+                    setErrorLogin('Credenciais inválidas');
+                }
+            }
+        } catch (error) {
+            // Verificar se o erro é de conexão
+            if (error.message.includes('Network Error')) {
+                setErrorLogin('Erro ao fazer login. Verifique sua conexão.');
             } else {
-                setIsLogin(false)
+                setErrorLogin('Credenciais inválidas');
             }
         }
     };
@@ -69,9 +68,7 @@ const LoginPage = () => {
                 <h2>Faça seu login</h2>
                 <p>Para Divulgar ou Adotar um animalzinho, você precisa ter um cadastro</p>
                 <S.area>
-                    {errorLogin?.length > 0 && (<p style={{ color: "red", textDecoration: "none", fontWeight: "bold" }}>{errorLogin}</p>)}
-                    {isvalidEmail === false && <p style={{ color: 'red', textDecoration: 'none', fontWeight: "bold" }}>E-mail invalido</p>}
-                    {isLogin && <p style={{ color: 'green', textDecoration: 'none', fontWeight: "bold" }}>Login efetuado com sucesso</p>}
+                    {errorLogin && <p style={{ color: "red", fontWeight: "bold" }}>{errorLogin}</p>}
 
                     <div className='areaForm'>
                         <label>E-mail:</label>
@@ -92,5 +89,4 @@ const LoginPage = () => {
     );
 };
 
-
-export default LoginPage
+export default LoginPage;
