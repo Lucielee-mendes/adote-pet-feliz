@@ -195,7 +195,6 @@ const CadastroPet = () => {
                     <div className='areaForm'>
                         <label>Nome do pet:*</label>
                         <input placeholder='' onChange={(e) => setNomePet(e.target.value)} />
-
                     </div>
                     <div className='areaForm'>
                         <div className='areaField'>

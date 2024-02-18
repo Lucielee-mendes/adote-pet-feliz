@@ -8,6 +8,7 @@ import PerfilUsuario from './pages/PerfilUsuario';
 import CadastroPet from './pages/CadastroPet';
 import PerfilPet from './pages/PerfilPet';
 import QuemSomos from './pages/QuemSomos';
+import EditarPerfil from './pages/EditarPerfilUsuario'
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         <Route path="/cadastroPet/:userId" element={<CadastroPet />} />
         <Route path="/perfilPet/:petId" element={<PerfilPet/>} />
         <Route path="/quemSomos" element={<QuemSomos/>} />
-
+        <Route path="/editarPerfil/:userId" element={<EditarPerfil/>} />
         
       </Routes>
     </BrowserRouter>
