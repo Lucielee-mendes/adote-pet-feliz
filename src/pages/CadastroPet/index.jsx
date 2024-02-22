@@ -188,7 +188,7 @@ const CadastroPet = () => {
                 <Header />
                 <S.areaMenu >
                     <p id='home'>Home</p>
-                    <p>/ Cadastre um novo pet para adoção</p>
+                    <p>/ Quero doar</p>
                 </S.areaMenu>
                 <S.area>
                     <p id='cabecalho'> Cadastre um novo pet para adoção</p>

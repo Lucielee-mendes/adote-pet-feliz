@@ -27,6 +27,8 @@ export const HeaderStyles = styled.header`
       font-weight: bold;
     }
 
+   
+
     button {
       border-radius: 5px;
       border: none;
@@ -36,6 +38,8 @@ export const HeaderStyles = styled.header`
       padding: 7px;
       position: absolute;
       right: 50px;
+      cursor: pointer;
+
     }
   }
 `;

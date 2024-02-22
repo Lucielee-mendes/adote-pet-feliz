@@ -12,8 +12,20 @@ export const FooterStyles = styled.footer`
       margin-bottom: 0;
       margin-top: 0.5rem;
       vertical-align: top;
+     
+    }
+    p{
       color: white;
       font-weight: bold;
+    }
+
+    .link{
+      text-decoration: none;
+
+    }
+
+    #titulo{
+      color: #B24698;
     }
     .imgRodape{
     max-width: 9rem;

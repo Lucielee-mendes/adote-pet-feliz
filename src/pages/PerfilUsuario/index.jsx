@@ -89,7 +89,7 @@ const PerfilUsuario = () => {
                                         <button onClick={() => window.location.href = "/cadastroPet/:userId"}>Cadastrar novo pet</button>
                                     </div>
                                     <div className='botao2'>
-                                        <button>Editar Perfil</button>
+                                        <button onClick={() => window.location.href = `/editarPerfil/${userId}`}  >Editar Perfil</button>
                                         <button onClick={() => window.location.href = "/esqueciSenha"}>Alterar Senha</button>
                                         <button>Sair</button>
                                     </div>

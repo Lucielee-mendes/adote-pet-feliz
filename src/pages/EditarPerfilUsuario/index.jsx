@@ -14,7 +14,7 @@ const EditarPerfil = () => {
     const { userId } = useParams();
 
     const [nome, setNome] = useState('');
-    const [whatsApp, setWhatsApp] = useState('');
+    const [whatsapp, setWhatsapp] = useState('');
     const [telefone, setTelefone] = useState('');
     const [estadoSelecionado, setEstadoSelecionado] = useState('');
     const [cidadeSelecionada, setCidadeSelecionada] = useState('');
@@ -35,7 +35,7 @@ const EditarPerfil = () => {
                 const response = await axios.get(`http://localhost:3001/perfilUsuario/${userId}`);
                 const perfil = response.data;
                 setNome(perfil.nome || '');
-                setWhatsApp(perfil.whatsApp || '');
+                setWhatsapp(perfil.whatsapp || '');
                 setTelefone(perfil.telefone || '');
                 setEstadoSelecionado(perfil.estado || '');
                 setCidadeSelecionada(perfil.cidade || '');
@@ -96,9 +96,10 @@ const EditarPerfil = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+      
         const formData = {
             nome,
-            whatsApp,
+            whatsapp,
             telefone,
             estado: estadoSelecionado,
             cidade: cidadeSelecionada,
@@ -108,6 +109,9 @@ const EditarPerfil = () => {
             sobreVoce,
             fotoPrincipal,
         };
+
+        console.log('userId:', userId);
+        console.log('formData:', formData);
 
         try {
             const response = await axios.put(`http://localhost:3001/editarPerfil/${userId}`, formData);
@@ -138,7 +142,7 @@ const EditarPerfil = () => {
                     <div className='areaForm'>
                         <div className='areaField'>
                             <label>WhatsApp*</label>
-                            <input placeholder='' value={whatsApp} onChange={(e) => setWhatsApp(e.target.value)} />
+                            <input placeholder='' value={whatsapp} onChange={(e) => setWhatsapp(e.target.value)} />
                         </div>
                         <div className='areaField'>
                             <label>Telefone:*</label>
@@ -239,8 +243,7 @@ const EditarPerfil = () => {
                             <img className='imgPerfil' src={previewImagem ? previewImagem : imgPerfil} alt="Perfil" />
                         </div>
                     </div>
-                    {error && <errorMessage>{error}</errorMessage>}
-                    {success && <successMessage>Perfil editado com sucesso!</successMessage>}
+
                     <div className='buttonarea'>
                         <button onClick={handleSubmit}>Salvar</button>
                     </div>

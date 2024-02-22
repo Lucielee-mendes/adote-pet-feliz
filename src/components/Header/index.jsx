@@ -1,25 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import * as S from './styles'
 import imgLogo from '../../imagens/image0 1logo.png'
 
 
 const Header = () => {
-    return (
-      <S.HeaderStyles>
-        <nav>
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState('');
+
+
+  useEffect(() => {
+    const storedUserData = JSON.parse(localStorage.getItem('userData'));
+    if (storedUserData) {
+      setIsLoggedIn(true);
+      setUserId(storedUserData._id);
+    } else {
+      setIsLoggedIn(false);
+      setUserId('');
+    }
+  }, []);
+
+  return (
+    <S.HeaderStyles>
+      <nav>
+        <div className="menu">
+          <img className="logo" src={imgLogo} alt="Logo" />
           <div className="menu">
-            <img className="logo" src={imgLogo} alt="Logo" />
-            <div className="menu">
-              <p>Quem somos</p>
-              <p>Quero adotar</p>
-              <p>Quero doar</p>
-              <button>Meu Perfil</button>
-            </div>
+            <Link to="/quemSomos"> <p>Quem somos</p> </Link>
+            <p>Quero adotar</p>
+            <Link to={`/cadastroPet/${userId}`}> <p>Quero doar</p> </Link>
+            {isLoggedIn ? (
+            <Link to={`/perfilUsuario/${userId}`}> <button>Meu Perfil</button> </Link>
+            ) : (
+              <>
+                <Link to="/login"> <p> Entrar </p></Link>
+                <Link to="/cadastro">
+                  <button>Cadastre-se</button>
+                </Link>
+              </>
+            )}
           </div>
-        </nav>
-      </S.HeaderStyles>
-    );
-  };
-  
-  export default Header;
+        </div>
+      </nav>
+    </S.HeaderStyles>
+  );
+};
+
+export default Header;
