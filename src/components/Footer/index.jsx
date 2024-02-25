@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import * as S from './styles'
 import imgRodape from '../../imagens/LogoSample_ByTailorBrands 2.png'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
 const Footer = () => {
     const [userId, setUserId] = useState('');
+    const history = useNavigate();
+
 
     useEffect(() => {
       const storedUserData = JSON.parse(localStorage.getItem('userData'));
@@ -16,6 +18,12 @@ const Footer = () => {
         setUserId('');
       }
     }, []);
+
+    const handleProfileLinkClick = () => {
+        if (!userId) {
+            history.push('/login'); // Redireciona para a página de login se o usuário não estiver logado
+        }
+    };
 
     return (
         <S.FooterStyles>
@@ -35,7 +43,7 @@ const Footer = () => {
                     </div>
                     <div className='areaRodape' >
                         <p id='titulo'>Perfil</p>
-                        <Link  className ='link' to={`/perfilUsuario/${userId}`}>  <p> Minha pagina de perfil </p> </Link>
+                        <Link onClick={handleProfileLinkClick} className ='link' to={`/perfilUsuario/${userId}`}>  <p> Minha pagina de perfil </p> </Link>
                         <Link className ='link' to="/cadastro">  <p> Cadastre-se </p>  </Link>
                     </div>
                 </div>
