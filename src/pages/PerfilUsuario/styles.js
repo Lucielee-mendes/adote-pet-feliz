@@ -152,4 +152,53 @@ p{
   margin-left: 25px;
 
 }
+.card {
+  position: relative;
+  width: 10rem;
+    height: 10rem;
+    display: inline-block;
+    margin: 1rem;
+    background-color: #e8fddf;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.iconRemove{
+  position: absolute;
+  right: 0rem;
+  bottom: 0.5rem;
+  z-index: 999;
+
+  img{
+    width: 1.8rem!important;
+    height: 1.8rem!important;
+  }
+}
+
+.card img {
+    width: 100%; /* A imagem ocupará toda a largura do card */
+    height: 50%; /* A imagem ocupará metade da altura do card */
+    object-fit: cover; /* A imagem será ajustada para preencher o espaço disponível */
+    border-bottom-left-radius: 0; /* Remova o arredondamento da borda inferior esquerda da imagem */
+    border-bottom-right-radius: 0; /* Remova o arredondamento da borda inferior direita da imagem */
+}
+
+.card-info {
+  padding  : 0.5rem;
+}
+
+.card-info p {
+  text-align: left;
+    margin: 0.2rem;
+    color: #000;
+    font-size: 0.7rem;
+}
+.card-info .name{
+  font-weight: bold;
+    text-transform: capitalize;
+    color: #48A111;
+}
+.card-info .groupInfos{
+  display: flex;
+}
 `

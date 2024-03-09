@@ -14,40 +14,43 @@ import axios from 'axios';
 const PerfilPet = () => {
     const { petId } = useParams();
     const [petData, setPetData] = useState(null);
-    const [image, setImage] = useState('')
+    const [images, setImages] = useState('')
+    const [userData, setUserData] = useState([])
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:3001/perfilPet/${petId}`);
-                console.log('Response data: ', response.data);
                 setPetData(response.data);
+                setPetData(response.data.perfilPet);
+                setImages(response.data.perfilPet.fotos);
 
-                localStorage.setItem('petData', JSON.stringify(response.data));
+                localStorage.setItem('petData', JSON.stringify(response.data.perfilPet));
 
             } catch (error) {
                 console.error('Erro ao obter dados do pet:', error);
             }
         };
 
-        if (!petData) {
-            const storedPetData = JSON.parse(localStorage.getItem('petData'));
+        fetchData()
+    }, [petId]);
 
-            if (storedPetData) {
-                setPetData(storedPetData);
-            } else {
-                fetchData();
-            }
-        }
-    }, [petId, petData]);
 
-    useEffect(()=>{
-        const getImage = async ()=>{
-            const response = await axios.get(`http://localhost:3001/getImagem/${petData?.fotos}`);
-            setImage(response.config.url)
+
+useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`http://localhost:3001/perfilUsuario/${petData.proprietario}`);
+            setUserData(response.data);
+        } catch (error) {
+            console.error('Erro ao obter dados do usuário:', error);
         }
-        petData && getImage()
-     },[petData])
+    };
+
+    petData &&  fetchData()
+
+}, [petData]);
+
 
     return (
         <S.perfil>
@@ -60,10 +63,14 @@ const PerfilPet = () => {
                 </S.areaMenu>
                 <S.area>
                     <S.secaoPerfil>
-                        <img className='imgPerfil' src={image || imgPerfil} alt="Perfil" />
+                 
+                     <img className='imgPerfil'
+                      src={`http://localhost:3001/getImagem/${petData?.fotos[0].file}` || images}  />  
+
+
                         <div className='informacoes'>
                             <p id='nome'>{petData?.nomePet || 'Nome pet'}</p>
-                            <p id='info'>{`${petData?.especie || 'Espécie '}| ${petData?.sexo || 'Sexo '}| ${petData?.idade || 'Idade '}| ${petData?.porte || 'Porte'}`}</p>
+                            <p id='info'>{`${petData?.especie || 'Espécie '} | ${petData?.sexo || 'Sexo '} | ${petData?.idade || 'Idade '} | ${petData?.porte || 'Porte'}`}</p>
                             <div className='infoContainer'>
                                 <div className='imgLocal'>
                                     <img src={imgLocal} alt="Localização" />
@@ -71,16 +78,18 @@ const PerfilPet = () => {
                                 </div>
                                 <div className='imgProp'>
                                     <img src={imgProprietario} alt="Proprietario" />
-                                    <p id='infoProp'>Publicado por  {petData?.proprietario.nome || 'Nome Usuario'}</p>
+                                    <p id='infoProp'>Publicado por  {userData?.userData?.nome || 'Nome Usuario'}</p>
                                 </div>
+                               
+                                <div className='contato'>
                                 <div className='imgContato'>
                                     <img src={imgContato} alt="Contato" />
                                 </div>
-                                <div className='contato'>
-
-                                    <p>Contatos | Para adotar esse pet ou saber mais sobre ele, entre em contato com o protetor:</p>
-                                    <p>E-mail: {petData?.proprietario.email || 'N/A'}</p>
-                                    <p>WhatsApp: {petData?.proprietario.whatsApp || 'N/A'}</p>
+                                   <div className='infosContato'>
+                                   <p>Contatos | Para adotar esse pet ou saber mais sobre ele, entre em contato com o protetor:</p>
+                                    <p>E-mail: {userData?.userData?.email || 'N/A'}</p>
+                                    <p>WhatsApp: {userData?.userData?.whatsApp || 'N/A'}</p>
+                                   </div>
                                 </div>
                                 <div>
                                     <p>Sobre o Pet:</p>
@@ -92,21 +101,21 @@ const PerfilPet = () => {
                             </div>
                             {petData && (
                                 <div>
-                                    <h3>Cuidados Veterinários</h3>
                                     <ul>
-                                        {Object.entries(petData.cuidadosVeterinarios).map(([key, value]) => (
-                                            <li key={key}>{value ? key : ''}</li>
-                                        ))}
+                                        {Object.entries(petData.cuidadosVeterinarios).map(([key, value]) =>{
+                                        return (
+                                           value === true &&  <li key={key}>{value===true && key }</li>
+                                        )})}
+
                                     </ul>
                                 </div>
                             )}
 
                             {petData && (
                                 <div>
-                                    <h3>Temperamento</h3>
                                     <ul>
                                         {Object.entries(petData?.temperamento).map(([key, value]) => (
-                                            <li key={key}>{value ? key : ''}</li>
+                                             value === true &&  <li key={key}>{value===true && key }</li>
                                         ))}
                                     </ul>
                                 </div>
@@ -114,10 +123,9 @@ const PerfilPet = () => {
 
                             {petData && (
                                 <div>
-                                    <h3>Vive Bem com</h3>
                                     <ul>
                                         {Object.entries(petData?.viveBem).map(([key, value]) => (
-                                            <li key={key}>{value ? key : ''}</li>
+                                         value === true &&  <li key={key}>{value===true && key }</li>
                                         ))}
                                     </ul>
                                 </div>
@@ -125,10 +133,10 @@ const PerfilPet = () => {
 
                             {petData && (
                                 <div>
-                                    <h3>Sociável com</h3>
                                     <ul>
                                         {Object.entries(petData?.sociavelCom).map(([key, value]) => (
-                                            <li key={key}>{value ? key : ''}</li>
+                                         value === true &&  <li key={key}>{value===true && key }</li>
+
                                         ))}
                                     </ul>
                                 </div>
@@ -137,7 +145,7 @@ const PerfilPet = () => {
                                 <button>Quero Adotar</button>
                             </div>
                         </div>
-                       
+
 
                     </S.secaoPerfil>
                 </S.area>

@@ -58,12 +58,13 @@ export const area = styled.div`
    
 `
 export const secaoPerfil = styled.div`
-display: block;
+display: flex;
   .imgPerfil{
     width: 18rem;
     height:18rem;
     display: inline-block;
     padding: 10px;
+   
   }
   .informacoes{
     display: inline-block;
@@ -74,10 +75,12 @@ display: block;
       font-size: 25px;
       font-weight: bold;
       margin-bottom: 0;
+      text-transform: capitalize;
     }
   #info{
     color: gray;
     margin-top: 0;
+    text-transform: capitalize;
 
   }
 
@@ -133,10 +136,16 @@ display: block;
    }
  }
  .contato{
-   display: inline-block;
-   margin-left: 15px;
    margin-bottom: 15px;
-   
+   img{
+    display: inline-block;
+   }
+   .infosContato{
+    display: inline-block;
+    width: 80%;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+   }
    p{
      margin-top: 0;
      margin-bottom: 0;

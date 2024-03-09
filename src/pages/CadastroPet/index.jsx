@@ -8,6 +8,7 @@ import Footer from '../../components/Footer';
 import imgPerfil from '../../imagens/pet-avatar 1.png'
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { green } from '@mui/material/colors';
 
 
 
@@ -58,6 +59,7 @@ const CadastroPet = () => {
         cachorros: false,
         criancas: false,
     });
+
 
     const handleArquivoChange = (e) => {
         const novosArquivos = e.target.files;
@@ -119,6 +121,46 @@ const CadastroPet = () => {
         return true;
     };
 
+    const clearData = ()=>{
+        setNomePet('')
+        setEspecie('')
+        setSexo('')
+        setIdade('')
+        setPorte('')
+        setRaca('')
+        setSobrePet('')
+        setEstadoSelecionado('')
+        setCidadeSelecionada('')
+        setArquivosSelecionados([])
+        setCuidadosVeterinarios({
+            castrado: false,
+            vacinado: false,
+            vermifugado: false,
+            cuidados_Especiais: false,
+        })
+        setTemperamento({
+            docil: false,
+            agressivo: false,
+            calmo: false,
+            brincalhao: false,
+            sociavel: false,
+            arisco: false,
+            independente: false,
+            carente: false,
+        })
+        setViveBem({
+            casa_Com_Quintal: false,
+            apartamento: false,
+        })
+        setSociavelCom({
+            gatos: false,
+            desconhecidos: false,
+            cachorros: false,
+            criancas: false,
+        })
+
+    }
+
     const handleCadastroPet = async () => {
 
         if (successCadastroPet === false) {
@@ -160,11 +202,14 @@ const CadastroPet = () => {
         formData.append('json', JSON.stringify(petData));
             try {
                 const response = await axios.post(`http://localhost:3001/cadastroPet/${userId}`, formData);
-                if (response.status === 201 && response.data && response.data.pet) {
-                    setSuccessCadastroPet(true);
-                    navigate(`/perfilPet/${response.data.pet._id}`);
+                if (response.status === 201 ) {
+                    clearData()
+                    setSuccessCadastroPet(true)
+                    setTimeout(()=>{
+                        setSuccessCadastroPet(false);
 
-                    // Lógica adicional após o cadastro bem-sucedido
+                    }, 2000)
+              
                 } else {
                     setSuccessCadastroPet(false);
                     console.error('Error response data:', response.data || 'No response data available');
@@ -194,12 +239,12 @@ const CadastroPet = () => {
                     <p id='cabecalho'> Cadastre um novo pet para adoção</p>
                     <div className='areaForm'>
                         <label>Nome do pet:*</label>
-                        <input placeholder='' onChange={(e) => setNomePet(e.target.value)} />
+                        <input placeholder='' value={nomePet} onChange={(e) => setNomePet(e.target.value)} />
                     </div>
                     <div className='areaForm'>
                         <div className='areaField'>
                             <label>Espécie:*</label>
-                            <select className='select' onChange={(e) => setEspecie(e.target.value)} >
+                            <select className='select' value={especie} onChange={(e) => setEspecie(e.target.value)} >
                                 <option value="">Selecione uma espécie</option>
                                 <option value="cachorro">Cachorro</option>
                                 <option value="gato">Gato</option>
@@ -207,7 +252,7 @@ const CadastroPet = () => {
                         </div>
                         <div className='areaField'>
                             <label>Sexo:*</label>
-                            <select className='select' onChange={(e) => setSexo(e.target.value)}>
+                            <select className='select' value={sexo} onChange={(e) => setSexo(e.target.value)}>
                                 <option value="">Selecione o sexo</option>
                                 <option value="Macho">Macho</option>
                                 <option value="Fêmea">Fêmea</option>
@@ -218,11 +263,11 @@ const CadastroPet = () => {
                     <div className='areaForm'>
                         <div className='areaField'>
                             <label>Idade:*</label>
-                            <input placeholder='' onChange={(e) => setIdade(e.target.value)} />
+                            <input placeholder='' value={idade} onChange={(e) => setIdade(e.target.value)} />
                         </div>
                         <div className='areaField'>
                             <label>Porte:*</label>
-                            <select className='select' onChange={(e) => setPorte(e.target.value)}>
+                            <select className='select' value={porte} onChange={(e) => setPorte(e.target.value)}>
                                 <option value="">Selecione o porte</option>
                                 <option value="Porte pequeno">Porte pequeno</option>
                                 <option value="Porte médio">Porte médio</option>
@@ -234,7 +279,7 @@ const CadastroPet = () => {
                     </div>
                     <div className='areaForm'>
                         <label>Raça:</label>
-                        <input placeholder='' onChange={(e) => setRaca(e.target.value)} />
+                        <input placeholder=''  value={raca} onChange={(e) => setRaca(e.target.value)} />
 
                     </div>
                     <div className='areaForm'>
@@ -274,7 +319,7 @@ const CadastroPet = () => {
                     </div>
                     <div className='areaForm'>
                         <label >Sobre o pet (escreva o máximo de informações possível, incluindo o histórico de saúde)</label>
-                        <textarea cols="140" rows="8" onChange={(e) => setSobrePet(e.target.value)}></textarea>
+                        <textarea value={sobrePet} cols="140" rows="8" onChange={(e) => setSobrePet(e.target.value)}></textarea>
 
                     </div>
                     <div className='areaForm' id='divIMG'>
@@ -356,7 +401,7 @@ const CadastroPet = () => {
                             ))}
                         </div>
                     </div>
-
+                    <div>{successCadastroPet && <p style={{color:'green', fontWeight:'bold'}}>Cadastro Realizado com sucesso!!</p>}</div>
                     <div className='buttonarea'>
                         <button onClick={handleCadastroPet}>Salvar</button>
                     </div>
