@@ -3,6 +3,8 @@ import imgBackground from '../../imagens/Login1.png'
 import imgLogo from '../../imagens/image0 1logo.png'
 import { useState } from 'react';
 import axios from 'axios';
+import { Link, useParams } from 'react-router-dom';
+
 
 
 const EsqueceuSenha = () => {
@@ -29,8 +31,8 @@ const EsqueceuSenha = () => {
             }
 
             const response = await axios.post('http://localhost:3001/esqueceuSenha', { email, senha });
-           
-            
+
+
             if (response.status === 200) {
                 setSuccess(true);
                 setError('');
@@ -51,7 +53,9 @@ const EsqueceuSenha = () => {
                 <S.ImgBackground src={imgBackground} alt="Background" />
             </S.areaImg>
             <S.areaForm>
-                <img className='imgLogo' src={imgLogo} alt="Logo" />
+                <Link to="/">
+                    <img className='imgLogo' src={imgLogo} alt="Logo" />
+                </Link>
                 <h2>Esqueci minha senha</h2>
                 <S.area>
                     {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -64,7 +68,7 @@ const EsqueceuSenha = () => {
                         <label>Digite nova senha:</label>
                         <input type='password' onChange={(e) => setsenha(e.target.value)} />
                     </div>
-                   <div className='areaForm'>
+                    <div className='areaForm'>
                         <label>Confirme sua senha:</label>
                         <input type='password' onChange={(e) => setConfirmePassword(e.target.value)} />
                     </div>

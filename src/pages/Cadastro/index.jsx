@@ -6,6 +6,8 @@ import { useState } from 'react';
 import estados from './estados.json'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
 
 
 
@@ -27,13 +29,13 @@ const Cadastro = () => {
     const [sobreVoce, setSobreVoce] = useState("");
     const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
-     
+
 
     const handleArquivoChange = (e) => {
         const file = e.target.files[0];
 
         if (file) {
-            
+
 
             setArquivoSelecionado(file);
 
@@ -104,7 +106,7 @@ const Cadastro = () => {
             if (isvalidEmail && password.length > 0) {
                 const formData = new FormData();
                 formData.append('image', arquivoSelecionado);
-               
+
                 const userData = {
                     nome,
                     email,
@@ -119,9 +121,9 @@ const Cadastro = () => {
                     possuiDisponibilidadeVacinar,
                     sobreVoce,
 
-                }; 
-                formData.append('json', JSON.stringify(userData))  
-                    
+                };
+                formData.append('json', JSON.stringify(userData))
+
                 try {
                     const response = await axios.post('http://localhost:3001/cadastro', formData);
 
@@ -186,7 +188,9 @@ const Cadastro = () => {
                 <S.ImgBackground src={imgBackground} alt="Background" />
             </S.areaImg>
             <S.areaForm>
-                <img className='imgLogo' src={imgLogo} alt="Logo" />
+                <Link to="/">
+                    <img className='imgLogo' src={imgLogo} alt="Logo" />
+                </Link>
                 <h2>Faça seu cadastro</h2>
                 <p>Preencha seus dados a seguir</p>
                 <S.area>

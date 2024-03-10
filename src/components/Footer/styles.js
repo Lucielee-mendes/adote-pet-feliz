@@ -24,9 +24,10 @@ export const FooterStyles = styled.footer`
 
     }
 
-    #titulo{
+    #tituloFooter{
       color: #B24698;
     }
+
     .imgRodape{
     max-width: 9rem;
     max-height: 9rem;

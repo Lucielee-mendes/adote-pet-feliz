@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const HeaderStyles = styled.header`
   background-color: white;
   position: relative;
+  padding: 5px;
 
 
   .logo {
@@ -27,7 +28,12 @@ export const HeaderStyles = styled.header`
       font-weight: bold;
     }
 
-   
+
+    #entrar{
+      right: 9rem;
+      position: absolute;
+      bottom: 0.6rem;
+    }
 
     button {
       border-radius: 5px;
@@ -35,9 +41,10 @@ export const HeaderStyles = styled.header`
       background-color: #A5D96D;
       color: white;
       font-weight: bold;
-      padding: 7px;
+      padding: 10px;
       position: absolute;
-      right: 50px;
+      top: 1.6rem;
+      right: 3rem;
       cursor: pointer;
 
     }

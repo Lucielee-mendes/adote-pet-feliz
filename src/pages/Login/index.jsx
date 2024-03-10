@@ -4,6 +4,8 @@ import imgLogo from '../../imagens/image0 1logo.png';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+
 
 const LoginPage = () => {
     const history = useNavigate();
@@ -41,7 +43,7 @@ const LoginPage = () => {
                 } else {
                     setErrorLogin('Credenciais inválidas');
                 }
-            }  else {
+            } else {
                 if (response.data && response.data.error) {
                     setErrorLogin(response.data.error);
                 } else {
@@ -64,7 +66,9 @@ const LoginPage = () => {
                 <S.ImgBackground src={imgBackground} alt="Background" />
             </S.areaImg>
             <S.areaForm>
-                <img className='imgLogo' src={imgLogo} alt="Logo" />
+                <Link to="/">
+                    <img className='imgLogo' src={imgLogo} alt="Logo" />
+                </Link>
                 <h2>Faça seu login</h2>
                 <p>Para Divulgar ou Adotar um animalzinho, você precisa ter um cadastro</p>
                 <S.area>

@@ -36,6 +36,7 @@ export const areaPerfil = styled.div`
     text-align: center;
     img{
         width: 100%;
+       
     }
   }
 
@@ -52,15 +53,46 @@ export const areaPerfil = styled.div`
     font-size: 22px;
   }
 
+ .vermais{
+  text-align: center;
+  button{
+    font-size: 15px;
+    border-radius: 8px;
+    border: none;
+    background-color: white;
+    color: #48A111;
+    font-weight: bold;
+    padding: 15px;
+    cursor: pointer;
+  }
+ }
+ #adote{
+  margin-top: 35px;
+ }
+.Container{
+  display: flex;
+
+ 
+}
+.CardContainer {
+  width: 500px; /* largura do card */
+  border: 1px solid #48A111;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+
 `;
 
 export const petList = styled.div`
 display: block;
-#petsDivulgados{
-  margin-left: 25px;
-  color: #48A111;
-  font-weight: bold;
-}
+
 p{
   margin-left: 25px;
 
@@ -102,14 +134,16 @@ p{
 
 .card-info p {
   text-align: left;
-    margin: 0.2rem;
+    margin: 2px;
     color: #000;
     font-size: 0.7rem;
 }
 .card-info .name{
+  font-size: 15px;
   font-weight: bold;
     text-transform: capitalize;
     color: #48A111;
+    margin: 2px;
 }
 .card-info .groupInfos{
   display: flex;

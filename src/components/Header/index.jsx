@@ -25,21 +25,26 @@ const Header = () => {
     <S.HeaderStyles>
       <nav>
         <div className="menu">
+        <Link to="/">
           <img className="logo" src={imgLogo} alt="Logo" />
+          </Link>
           <div className="menu">
             <Link to="/quemSomos"> <p>Quem somos</p> </Link>
             <p>Quero adotar</p>
             <Link to={`/cadastroPet/${userId}`}> <p>Quero doar</p> </Link>
-            {isLoggedIn ? (
-            <Link to={`/perfilUsuario/${userId}`}> <button>Meu Perfil</button> </Link>
-            ) : (
-              <>
-                <Link to="/login"> <p> Entrar </p></Link>
-                <Link to="/cadastro">
-                  <button>Cadastre-se</button>
-                </Link>
-              </>
-            )}
+            <div>
+              {isLoggedIn ? (
+                <Link to={`/perfilUsuario/${userId}`}> <button>Meu Perfil</button> </Link>
+              ) : (
+                <>
+                  <Link to="/login"> <p id='entrar'> Entrar </p></Link>
+                  <Link to="/cadastro">
+                    <button>Cadastre-se</button>
+                  </Link>
+                </>
+              )}
+            </div>
+
           </div>
         </div>
       </nav>
