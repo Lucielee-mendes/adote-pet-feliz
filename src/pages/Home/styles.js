@@ -121,11 +121,11 @@ p{
 }
 
 .card img {
-    width: 100%; /* A imagem ocupará toda a largura do card */
-    height: 70%; /* A imagem ocupará metade da altura do card */
-    object-fit: cover; /* A imagem será ajustada para preencher o espaço disponível */
-    border-bottom-left-radius: 0; /* Remova o arredondamento da borda inferior esquerda da imagem */
-    border-bottom-right-radius: 0; /* Remova o arredondamento da borda inferior direita da imagem */
+    width: 100%; 
+    height: 70%; 
+    object-fit: cover; 
+    border-bottom-left-radius: 0; 
+    border-bottom-right-radius: 0;
 }
 
 .card-info {

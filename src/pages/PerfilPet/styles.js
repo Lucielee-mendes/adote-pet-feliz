@@ -120,6 +120,10 @@ display: flex;
       display: inline-block;
       margin-left: 15px;
       margin-bottom: 15px;
+      color: black;
+      text-decoration: underline;
+      text-transform: capitalize;
+
     p{
       margin-top: 0;
       margin-bottom: 0;

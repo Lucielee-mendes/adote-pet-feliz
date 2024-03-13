@@ -23,9 +23,9 @@ export const areaPerfil = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #B5FA95; /* Mesma cor de fundo */
-    opacity: 0.3; /* Opacidade */
-    z-index: -1; /* Coloca o pseudo-elemento abaixo do conteúdo */
+    background-color: #B5FA95; 
+    opacity: 0.3; 
+    z-index: -1; 
   }
 
 `;
@@ -71,12 +71,15 @@ display: block;
   .informacoes{
     display: inline-block;
     vertical-align: top;
+
   }
   #nome{
       color: #48A111;
       font-size: 25px;
       font-weight: bold;
       margin-bottom: 0;
+      text-transform: capitalize;
+
     }
   #cidade{
     color: gray;
@@ -176,11 +179,11 @@ p{
 }
 
 .card img {
-    width: 100%; /* A imagem ocupará toda a largura do card */
-    height: 50%; /* A imagem ocupará metade da altura do card */
-    object-fit: cover; /* A imagem será ajustada para preencher o espaço disponível */
-    border-bottom-left-radius: 0; /* Remova o arredondamento da borda inferior esquerda da imagem */
-    border-bottom-right-radius: 0; /* Remova o arredondamento da borda inferior direita da imagem */
+    width: 100%; 
+    height: 50%; 
+    object-fit: cover; 
+    border-bottom-left-radius: 0; 
+    border-bottom-right-radius: 0; 
 }
 
 .card-info {

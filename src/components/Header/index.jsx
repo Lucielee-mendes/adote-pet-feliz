@@ -21,6 +21,12 @@ const Header = () => {
     }
   }, []);
 
+  const handleQueroDoarClick = () => {
+    if (!isLoggedIn) {
+      window.location.href = '/login';
+    }
+  };
+
   return (
     <S.HeaderStyles>
       <nav>
@@ -31,7 +37,7 @@ const Header = () => {
           <div className="menu">
             <Link to="/quemSomos"> <p>Quem somos</p> </Link>
             <p>Quero adotar</p>
-            <Link to={`/cadastroPet/${userId}`}> <p>Quero doar</p> </Link>
+            <Link to={`/cadastroPet/${userId}`} > <p  onClick={handleQueroDoarClick}>Quero doar</p> </Link>
             <div>
               {isLoggedIn ? (
                 <Link to={`/perfilUsuario/${userId}`}> <button>Meu Perfil</button> </Link>
