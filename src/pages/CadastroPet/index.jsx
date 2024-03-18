@@ -173,7 +173,6 @@ const CadastroPet = () => {
                 return;
             }
             const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData'))._id : '';
-            console.log('userId enviado ao backend:', userId);
 
             const formData = new FormData();
 

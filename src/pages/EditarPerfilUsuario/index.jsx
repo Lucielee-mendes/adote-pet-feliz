@@ -110,12 +110,10 @@ const EditarPerfil = () => {
             fotoPrincipal,
         };
 
-        console.log('userId:', userId);
-        console.log('formData:', formData);
+
 
         try {
             const response = await axios.put(`http://localhost:3001/editarPerfil/${userId}`, formData);
-            console.log('Resposta ao editar perfil:', response.data);
             setSuccess(true);
             history.push(`/perfilUsuario/${userId}`);
         } catch (error) {

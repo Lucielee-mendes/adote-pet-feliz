@@ -167,6 +167,7 @@ p{
 }
 
 .iconRemove{
+  cursor: pointer;
   position: absolute;
   right: 0rem;
   bottom: 0.5rem;

@@ -31,34 +31,36 @@ const PerfilUsuario = () => {
 
                 setUserData(response.data);
 
-                if (storedUserData && response.data._id === storedUserData._id) {
+                if (storedUserData && response.data._id === storedUserData._id || storedUserData._id === userId) {
                     setIsOwnProfile(true);
                 } else {
                     setIsOwnProfile(false);
                 }
-                setPetData(response.data.pets || []);
+                // setPetData(response.data.pets || []);
 
             } catch (error) {
                 console.error('Erro ao obter dados do usuário:', error);
             }
         };
 
-        if (!userData) {
-            const storedUserData = JSON.parse(localStorage.getItem('userData'));
-            if (storedUserData) {
-                setUserData(storedUserData);
+        // if (!userData) {
+        //     const storedUserData = JSON.parse(localStorage.getItem('userData'));
+        //     if (storedUserData) {
+        //         setUserData(storedUserData);
 
-                if (storedUserData._id === userId) {
-                    setIsOwnProfile(true);
-                } else {
-                    fetchData();
-                }
+        //         if (storedUserData._id === userId) {
+        //             setIsOwnProfile(true);
+        //         } else {
+        //             fetchData();
+        //         }
 
-            } else {
-                fetchData();
-            }
-        }
-    }, [userId, userData]);
+        //     } 
+        // }else{
+        //     fetchData()
+        // }
+
+        fetchData()
+    }, [userId]);
 
     useEffect(() => {
         const getImage = async () => {
@@ -132,15 +134,15 @@ const PerfilUsuario = () => {
                     <S.secaoPerfil>
                         <img className='imgPerfil' src={image || imgPerfil} alt="Perfil" />
                         <div className='informacoes'>
-                            <p id='nome'>{userData?.nome || 'Nome Usuario'}</p>
-                            <p id='cidade'>{`${userData?.cidade || 'Cidade'}, ${userData?.estado || 'Estado'}`}</p>
+                            <p id='nome'>{userData?.nome || userData?.userData?.nome || 'Nome Usuario'}</p>
+                            <p id='cidade'>{`${userData?.cidade || userData?.userData?.cidade || 'Cidade'}, ${userData?.estado || userData?.userData?.estado || 'Estado'}`}</p>
                             <div className='imgContato'>
                                 <img src={imgContato} alt="Contato" />
                             </div>
                             <div className='contato'>
                                 <p>Contatos</p>
-                                <p>E-mail: {userData?.email || 'N/A'}</p>
-                                <p>WhatsApp: {userData?.whatsApp ? userData.whatsApp : 'N/A'}</p>
+                                <p>E-mail: {userData?.email || userData?.userData?.email || 'N/A'}</p>
+                                <p>WhatsApp: {userData?.whatsApp || userData?.userData?.whatsApp || 'N/A'}</p>
                             </div>
                             {isOwnProfile && (
                                 <>
@@ -160,19 +162,19 @@ const PerfilUsuario = () => {
                                     <div className='infoAdicional'>
                                         <div className='infoLabel'>
                                             <p>Capacidade de Vacinação:</p>
-                                            <span>{userData?.possuiDisponibilidadeVacinar ? 'Sim' : 'Não'}</span>
+                                            <span>{userData?.possuiDisponibilidadeVacinar || userData?.userData?.possuiDisponibilidadeVacinar ? 'Sim' : 'Não'}</span>
                                         </div>
                                         <div className='infoLabel'>
                                             <p>Capacidade de Castração:</p>
-                                            <span>{userData?.possuiDisponibilidadeCastrar ? 'Sim' : 'Não'}</span>
+                                            <span>{userData?.possuiDisponibilidadeCastrar || userData?.userData?.possuiDisponibilidadeCastrar ? 'Sim' : 'Não'}</span>
                                         </div>
                                         <div className='infoLabel'>
                                             <p>Possui Casa Telada:</p>
-                                            <span>{userData?.possuiCasaTelada ? 'Sim' : 'Não'}</span>
+                                            <span>{userData?.possuiCasaTelada || userData?.userData?.possuiCasaTelada ? 'Sim' : 'Não'}</span>
                                         </div>
                                         <div>
                                             <p>Sobre o usuário:</p>
-                                            <textarea cols="30" rows="7" value={userData?.sobreVoce || 'Não informado'} readOnly ></textarea>
+                                            <textarea cols="30" rows="7" value={userData?.sobreVoce || userData?.userData?.sobreVoce || 'Não informado'} readOnly ></textarea>
                                         </div>
                                     </div>
                                 </>
@@ -198,8 +200,9 @@ const PerfilUsuario = () => {
                                                 <p>{pet.cidade} ,</p>
                                                 <p>{pet.estado}</p>
                                             </div>
+                                            {isOwnProfile && 
                                             <a className='iconRemove' onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeletePet(pet._id); }}> <img src={imgExcluir} /></a>
-
+                                            }
                                         </div>
                                     </div>
                                 ))

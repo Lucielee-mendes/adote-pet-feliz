@@ -17,8 +17,6 @@ const EsqueceuSenha = () => {
 
 
     const handlePassword = async () => {
-        console.log("Email:", email); // Verifica se o email está sendo passado corretamente
-        console.log("Senha:", senha); //
         try {
             if (!email || !senha || !confirmePassword) {
                 setError('Preencha todos os campos');

@@ -42,7 +42,6 @@ const PerfilPet = () => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(`http://localhost:3001/perfilUsuario/${petData.proprietario}`);
-                console.log('Dados do usuário:', response.data);
 
                 setUserData(response.data);
             } catch (error) {
@@ -54,7 +53,6 @@ const PerfilPet = () => {
 
     }, [petData]);
     
-    console.log("userData._id:", userData?._id);
 
 
     return (
@@ -102,6 +100,10 @@ const PerfilPet = () => {
                                 <div>
                                     <p>Sobre o Pet:</p>
                                     <textarea cols="50" rows="7" value={petData?.sobrePet || 'Não informado'} readOnly ></textarea>
+                                </div>
+                                <div>
+                                <p> Raça: {`${petData?.raca || 'Não informado'}`}</p>
+
                                 </div>
                             </div>
                             <div>

@@ -9,6 +9,7 @@ import CadastroPet from './pages/CadastroPet';
 import PerfilPet from './pages/PerfilPet';
 import QuemSomos from './pages/QuemSomos';
 import EditarPerfil from './pages/EditarPerfilUsuario'
+import QueroAdotar from './pages/QueroAdotar'
 import Home from './pages/Home'
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
         <Route path="/perfilPet/:petId" element={<PerfilPet />} />
         <Route path="/quemSomos" element={<QuemSomos />} />
         <Route path="/editarPerfil/:userId" element={<EditarPerfil />} />
-
+        <Route path="/queroAdotar" element={<QueroAdotar />} />
       </Routes>
     </BrowserRouter>
   );
