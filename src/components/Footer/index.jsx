@@ -30,11 +30,11 @@ const Footer = () => {
                 <div className='areaAllRodape'>
                     <div className='areaRodape'>
                         <p id='tituloFooter'>Adote</p>
-                        <p>Pesquisar animais</p>
+                       <Link className='link' to="/queroAdotar" ><p>Pesquisar animais</p></Link> 
                     </div>
                     <div className='areaRodape' >
                         <p id='tituloFooter'>Divulgue um animal</p>
-                        <Link className='link' to={`/cadastroPet/${userId}`}> <p> Cadastrar animal </p> </Link>
+                        <Link className='link' to={`/cadastroPet/${userId}`}> <p onClick={handleProfileLinkClick}>Cadastrar animal </p> </Link>
                     </div>
                     <div className='areaRodape' >
                         <p id='tituloFooter'>Quem somos</p>

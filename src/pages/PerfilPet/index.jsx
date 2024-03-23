@@ -7,7 +7,7 @@ import imgProprietario from '../../imagens/download (6).png';
 import imgContato from '../../imagens/download (4).png'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 
@@ -27,7 +27,7 @@ const PerfilPet = () => {
 
                 localStorage.setItem('petData', JSON.stringify(response.data.perfilPet));
 
-                
+
             } catch (error) {
                 console.error('Erro ao obter dados do pet:', error);
             }
@@ -52,7 +52,7 @@ const PerfilPet = () => {
         petData && fetchData()
 
     }, [petData]);
-    
+
 
 
     return (
@@ -60,8 +60,8 @@ const PerfilPet = () => {
             <S.areaPerfil>
                 <Header />
                 <S.areaMenu>
-                    <p id='home'>Home /</p>
-                    <p id='home'>Quero adotar /</p>
+                    <Link to="/"> <p id='home'>Home /</p></Link>
+                    <Link to="/queroAdotar"> <p id='home'>Quero adotar /</p></Link>
                     <p>{petData?.nomePet || 'Nome pet'}</p>
                 </S.areaMenu>
                 <S.area>
@@ -84,7 +84,7 @@ const PerfilPet = () => {
                                     <Link to={`/perfilUsuario/${userData?.userData?._id}`}>
                                         <p id='infoProp'>Publicado por  {userData?.userData?.nome || 'Nome Usuario'}</p>
                                     </Link>
-                                    
+
                                 </div>
 
                                 <div className='contato'>
@@ -102,7 +102,7 @@ const PerfilPet = () => {
                                     <textarea cols="50" rows="7" value={petData?.sobrePet || 'Não informado'} readOnly ></textarea>
                                 </div>
                                 <div>
-                                <p> Raça: {`${petData?.raca || 'Não informado'}`}</p>
+                                    <p> Raça: {`${petData?.raca || 'Não informado'}`}</p>
 
                                 </div>
                             </div>

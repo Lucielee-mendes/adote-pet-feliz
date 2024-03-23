@@ -34,6 +34,11 @@ export const areaMenu = styled.div`
     display: flex;
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+
+    @media (max-width: 600px) {
+
+    padding: 0.8rem;  
+    }
 p{
   display: inline-block;
   margin-left: 10px;
@@ -56,13 +61,21 @@ export const area = styled.div`
   box-sizing: border-box;
    padding: 60px;
 
+   @media (max-width: 600px) {
+    padding: 0.8rem;
+    margin: 0.8rem;
 
+    }
   #cabecalho{
     text-align: center;
     color: #48A111;
     font-weight: bold;
     font-size: 23px;
     margin-bottom: 50px;;
+    @media (max-width: 600px) {
+      margin: 0.8rem;
+      font-size: 12px;
+}
   }
 
   .areaForm{
@@ -70,6 +83,16 @@ export const area = styled.div`
     margin: 0 auto;
     text-align: left;    
     display: inline-block;
+    @media (max-width: 600px) {
+      display: block;
+    }
+
+    textarea{
+      width: 100%;
+      @media (max-width: 600px) {
+      width: 100%;
+    }
+    }
   
 
     label{
@@ -82,6 +105,11 @@ export const area = styled.div`
       padding: 0.2rem 0rem;
       border-radius: 5px;
       margin-bottom: 10px;
+
+        @media (max-width: 600px) {
+      width: 100%;
+      }
+
     }
 
   }
@@ -91,14 +119,25 @@ export const area = styled.div`
     display: inline-block;
     border-radius: 5px;
     padding: 0.2rem;
+    @media (max-width: 600px) {
+      display: block;
+    }
+      
   }
 
   .areaField{
         width: 50%;
         display: inline-block;
         margin-bottom: 13px;
+        @media (max-width: 600px) {
+      display: block;
+      width: 100%;
+    }
         input{
             width: 98%;
+            @media (max-width: 600px) {
+     width: 100%;
+    }
         }
        }
 
@@ -106,12 +145,20 @@ export const area = styled.div`
     max-width: 50%;
     display: inline-block;
     margin-bottom: 20px;
+    @media (max-width: 600px) {
+      display: block;
+    }
 
     input{
         max-width: 60%;
         display: inline-block;
         vertical-align: text-bottom;
         margin-right: 5px;
+        @media (max-width: 600px) {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+    }
     }
   }
   .previewImage{

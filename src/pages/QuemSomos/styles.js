@@ -56,6 +56,12 @@ export const area = styled.div`
   margin-left: 5rem;
   margin-right: 5rem;
   padding: 50px;
+
+  @media (max-width: 600px) {
+
+    padding: 0.8rem;
+    margin: 0.8rem;
+    }
   box-sizing: border-box;
    
 

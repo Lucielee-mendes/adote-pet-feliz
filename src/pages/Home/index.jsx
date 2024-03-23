@@ -36,7 +36,7 @@ const HomePage = () => {
                 <div className="areaBody">
 
                     <div className="Banner">
-                        <img src={imgBanner} alt="" />
+                      <Link to="/queroAdotar"> <img src={imgBanner} alt="" /></Link> 
 
                     </div>
 
@@ -48,7 +48,7 @@ const HomePage = () => {
                     <S.petList>
                         {limitedPets && limitedPets.length > 0 ? (
                             limitedPets.map((pet, index) => (
-                                <Link key={index} to={`/perfilPet/${pet._id}`}>
+                                <Link id="petLink" key={index} to={`/perfilPet/${pet._id}`}>
                                     <div className='card'>
                                         <img src={`http://localhost:3001/getImagem/${pet?.fotos[0]?.file}`} alt={pet.nomePet} />
                                         <div className='card-info'>

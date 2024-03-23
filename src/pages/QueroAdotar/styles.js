@@ -160,4 +160,21 @@ p{
 .card-info .groupInfos{
   display: flex;
 }
+
+.pagination{
+  button{
+    background-color: #A5D96D;
+      border: none;
+      border-radius: 10px;
+      padding: 7px;
+      color: white;
+      font-weight: bold;
+      margin-left: 0.5rem;
+      cursor: pointer;
+  }
+  button:disabled{
+    background-color: gray;
+    cursor: auto;
+  }
+}
 `

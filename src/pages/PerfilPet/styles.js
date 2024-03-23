@@ -55,15 +55,27 @@ export const area = styled.div`
   margin-right: 5rem;
   padding: 40px;
   box-sizing: border-box;
+  @media (max-width: 600px) {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    }
    
 `
 export const secaoPerfil = styled.div`
 display: flex;
+@media (max-width: 600px) {
+  display: block;
+  text-align: center;
+    }
   .imgPerfil{
     width: 18rem;
     height:18rem;
     display: inline-block;
     padding: 10px;
+    @media (max-width: 600px) {
+      display: block;
+      margin: 0 auto;
+    }
    
   }
   .informacoes{

@@ -5,7 +5,14 @@ export const perfil = styled.div`
   height: 100vh;
   overflow-y: auto;
   width: 100%;
-`;
+
+  
+  @media (max-width: 600px) {
+    max-width: 100%;
+    
+   }
+   
+   `;
 
 export const areaPerfil = styled.div`
   position: relative;
@@ -16,6 +23,10 @@ export const areaPerfil = styled.div`
 
   .areaBody{
     padding: 2rem;
+
+    @media (max-width: 600px) {
+        text-align: center;
+      }
   }
  
 
@@ -34,13 +45,28 @@ export const areaPerfil = styled.div`
 
   .Banner{
     text-align: center;
+    
+    @media (max-width: 600px) {
+            max-width: 100%;
+   }
     img{
         width: 100%;
+
+        @media (max-width: 600px) {
+            max-width: 100%;
+            overflow: hidden;
+            object-fit: contain;
+   }
        
     }
   }
 
   .petsCadastrados{
+    
+    @media (max-width: 600px) {
+            max-width: 100%;
+            overflow: auto;
+   }
     p{
         color: grey;
         margin: 2px;
@@ -72,25 +98,53 @@ export const areaPerfil = styled.div`
 .Container{
   display: flex;
 
+  @media (max-width: 600px) {
+       
+            display: block;
+
+ 
+   }
  
 }
 .CardContainer {
-  width: 500px; /* largura do card */
+  width: 47% ; /* largura do card */
   border: 1px solid #48A111;
   border-radius: 8px;
   padding: 16px;
-  margin: 8px;
+  margin: 0.5rem;
   background-color: white;
   display: flex;
   align-items: center;
-  margin-right: auto;
-  margin-left: auto;
+
+
+  @media (max-width: 600px) {
+            width: 100%;
+            text-align: center;
+            display: block;
+            padding: 0px;
+
+ 
+   }
+   
 }
 
 
 `;
 
 export const petList = styled.div`
+
+
+
+
+@media (max-width: 600px) {
+            width: 100%;
+            text-align: center;
+
+            #petLink{
+width: 100%;
+  text-align: center;
+}
+   }
 display: block;
 
 p{
@@ -106,6 +160,14 @@ p{
     background-color: white;
     border-radius: 10px;
     overflow: hidden;
+
+    @media (max-width: 600px) {
+      
+      width: 14rem;
+      height: 14rem;
+      display: block;
+      margin: 0.5rem auto;
+    }
 }
 
 .iconRemove{

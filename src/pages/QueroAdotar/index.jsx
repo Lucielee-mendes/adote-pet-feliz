@@ -1,5 +1,5 @@
 import * as S from './styles'
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../../components/Header';
@@ -18,6 +18,10 @@ const QueroAdotar = () => {
     const [estadoFilter, setEstado] = useState("")
     const [castrado, setCastrado] = useState(null)
     const [cidade, setCidade] = useState('')
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(8);
+
 
     useEffect(() => {
         const fetchPets = async () => {
@@ -53,13 +57,18 @@ const QueroAdotar = () => {
         setFilterData(filteredData);
     };
 
-    const limitedPets = petData.slice(0, 10);
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
+
+
     return (
         <S.queroAdotar>
             <S.areaQueroAdotar>
                 <Header />
                 <S.areaMenu>
-                    <p id='home'>Home</p>
+                   <Link to="/"> <p id='home'>Home</p></Link> 
                     <p>/ Quero adotar</p>
                 </S.areaMenu>
                 <div className='areaBody'>
@@ -133,23 +142,32 @@ const QueroAdotar = () => {
 
 
                     <S.List>
-                        {filterData.map((val, key) => (
-                                <div className='card'>
-                                    <img src={`http://localhost:3001/getImagem/${val?.fotos[0]?.file}`} alt={val.nomePet} />
-                                    <div className='card-info'>
-                                        <p className='name'>{val.nomePet}</p>
-                                        <div className='groupInfos'>
-                                            <p>{val.sexo} - </p>
-                                            <p>{val.idade}</p>
-                                        </div>
-                                        <div className='groupInfos'>
-                                            <p>{val.cidade} ,</p>
-                                            <p>{val.estado}</p>
-                                        </div>
+                        {currentItems.map((val, key) => (
+                            <div className='card'>
+                                <img src={`http://localhost:3001/getImagem/${val?.fotos[0]?.file}`} alt={val.nomePet} />
+                                <div className='card-info'>
+                                    <p className='name'>{val.nomePet}</p>
+                                    <div className='groupInfos'>
+                                        <p>{val.sexo} - </p>
+                                        <p>{val.idade}</p>
+                                    </div>
+                                    <div className='groupInfos'>
+                                        <p>{val.cidade} ,</p>
+                                        <p>{val.estado}</p>
                                     </div>
                                 </div>
+                            </div>
                         ))}
 
+
+                        <div className='pagination'>
+                            <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+                                Anterior
+                            </button>
+                            <button onClick={() => paginate(currentPage + 1)} disabled={indexOfLastItem >= filterData.length}>
+                                Próximo
+                            </button>
+                        </div>
 
                     </S.List>
 

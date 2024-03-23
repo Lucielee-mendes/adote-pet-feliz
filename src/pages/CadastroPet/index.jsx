@@ -9,6 +9,8 @@ import imgPerfil from '../../imagens/pet-avatar 1.png'
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { green } from '@mui/material/colors';
+import { Link } from 'react-router-dom';
+
 
 
 
@@ -231,8 +233,8 @@ const CadastroPet = () => {
             <S.areaCadastro>
                 <Header />
                 <S.areaMenu >
-                    <p id='home'>Home</p>
-                    <p>/ Quero doar</p>
+                <Link to="/"> <p id='home'>Home</p></Link>                     
+                <p>/ Quero doar</p>
                 </S.areaMenu>
                 <S.area>
                     <p id='cabecalho'> Cadastre um novo pet para adoção</p>
@@ -318,7 +320,7 @@ const CadastroPet = () => {
                     </div>
                     <div className='areaForm'>
                         <label >Sobre o pet (escreva o máximo de informações possível, incluindo o histórico de saúde)</label>
-                        <textarea value={sobrePet} cols="140" rows="8" onChange={(e) => setSobrePet(e.target.value)}></textarea>
+                        <textarea value={sobrePet}  rows="8" onChange={(e) => setSobrePet(e.target.value)}></textarea>
 
                     </div>
                     <div className='areaForm' id='divIMG'>

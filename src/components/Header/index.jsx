@@ -37,7 +37,7 @@ const Header = () => {
           </Link>
           <div className="menu">
             <Link to="/quemSomos"> <p>Quem somos</p> </Link>
-            <p>Quero adotar</p>
+           <Link to="/queroAdotar"> <p>Quero adotar</p></Link> 
             <Link to={`/cadastroPet/${userId}`} > <p  onClick={handleQueroDoarClick}>Quero doar</p> </Link>
             <div>
               {isLoggedIn ? (

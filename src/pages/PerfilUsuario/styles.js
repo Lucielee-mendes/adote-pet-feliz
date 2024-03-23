@@ -57,6 +57,11 @@ export const area = styled.div`
   margin-right: 5rem;
   padding: 40px;
   box-sizing: border-box;
+  @media (max-width: 600px) {
+    padding: 0.5rem;
+    margin: 0.5rem;
+text-align: center;
+    }
    
 `
 export const secaoPerfil = styled.div`
@@ -67,6 +72,11 @@ display: block;
     border-radius: 10rem;
     display: inline-block;
     padding: 5px;
+
+    @media (max-width: 600px) {
+      width: 15rem;
+      height: 15rem;
+    }
   }
   .informacoes{
     display: inline-block;

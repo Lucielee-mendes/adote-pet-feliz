@@ -127,7 +127,7 @@ const PerfilUsuario = () => {
             <S.areaPerfil>
                 <Header />
                 <S.areaMenu >
-                    <p id='home'>Home</p>
+                    <Link to="/"> <p id='home'>Home</p></Link>
                     <p>/ Meu Perfil</p>
                 </S.areaMenu>
                 <S.area>
@@ -200,8 +200,8 @@ const PerfilUsuario = () => {
                                                 <p>{pet.cidade} ,</p>
                                                 <p>{pet.estado}</p>
                                             </div>
-                                            {isOwnProfile && 
-                                            <a className='iconRemove' onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeletePet(pet._id); }}> <img src={imgExcluir} /></a>
+                                            {isOwnProfile &&
+                                                <a className='iconRemove' onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDeletePet(pet._id); }}> <img src={imgExcluir} /></a>
                                             }
                                         </div>
                                     </div>

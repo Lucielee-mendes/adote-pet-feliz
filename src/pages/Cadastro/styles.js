@@ -7,6 +7,10 @@ export const formulario = styled.div`
   height: 100vh;
   overflow-y: auto;
   width: 100%;
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr; /* Divide a tela em duas colunas */
+
+  }
 `;
 
 export const areaImg = styled.div`

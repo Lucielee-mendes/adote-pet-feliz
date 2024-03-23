@@ -11,6 +11,9 @@ export const HeaderStyles = styled.header`
     max-height: 7rem;
     margin-left: 1.5rem;
     display: block;
+    @media (max-width: 600px) {
+    width: 4rem;
+    }
   }
 
   .menu {
@@ -19,6 +22,16 @@ export const HeaderStyles = styled.header`
     padding-left: 1.5rem;
     padding-right: 1.5rem;
 
+
+    @media (max-width: 600px) {
+      padding: 0;
+
+      p{
+        font-size: 10px;
+        margin: 0!important;
+        padding: 0;
+      }
+    }
     p {
       display: inline-block;
       margin-left: 1.5rem;
@@ -33,6 +46,9 @@ export const HeaderStyles = styled.header`
       right: 9rem;
       position: absolute;
       bottom: 0.6rem;
+      @media (max-width: 600px) {
+        bottom: -1.5rem;
+    }
     }
 
     button {
@@ -47,6 +63,20 @@ export const HeaderStyles = styled.header`
       right: 3rem;
       cursor: pointer;
 
+
+      @media (max-width: 600px) {
+        border-radius: 5px;
+    border: none;
+    background-color: #A5D96D;
+    color: white;
+    font-weight: bold;
+    padding: 4px;
+    position: absolute;
+    top: 3.5rem;
+    right: 2rem;
+    cursor: pointer;
+    }
+     
     }
   }
 `;

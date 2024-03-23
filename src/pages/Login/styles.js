@@ -7,12 +7,20 @@ export const formulario = styled.div`
   height: 100vh;
   overflow: hidden;
   width: 100%;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr; /* Divide a tela em duas colunas */
+
+  }
 `;
 
 export const areaImg = styled.div`
   grid-area: areaImg; /* Especifica a área da imagem */
   position: relative;
   overflow: hidden;
+  @media (max-width: 600px) {
+    display: none;
+  }
 `;
 
 export const ImgBackground = styled.img`
