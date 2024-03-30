@@ -2,11 +2,10 @@ import * as S from './styles'
 import imgBackground from '../../imagens/Login1.png'
 import imgLogo from '../../imagens/image0 1logo.png'
 import imgPerfil from '../../imagens/download (2) 1.png'
-import { useState } from 'react';
-import estados from './estados.json'
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 
@@ -29,6 +28,46 @@ const Cadastro = () => {
     const [sobreVoce, setSobreVoce] = useState("");
     const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
+    const [estadoSelecionado, setEstadoSelecionado] = useState('');
+    const [cidadeSelecionada, setCidadeSelecionada] = useState('');
+    const [estados, setEstados] = useState([])
+    const [cidade, setCidade] = useState([])
+
+    useEffect(() => {
+        const fetchStates = async () => {
+            try {
+                const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar estados');
+                }
+                const states = await response.json();
+                setEstados(states)
+            } catch (error) {
+                console.error('Erro ao buscar estados:', error);
+                return [];
+            }
+        };
+
+        const fetchCitiesByState = async (stateId) => {
+            try {
+                const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar cidades');
+                }
+                const cities = await response.json();
+                setCidade(cities)
+            } catch (error) {
+                console.error('Erro ao buscar cidades:', error);
+                return [];
+            }
+        };
+        fetchStates();
+
+
+        const item =JSON.parse(estadoSelecionado? estadoSelecionado : null)
+
+        item && fetchCitiesByState(item.id)
+    }, [estadoSelecionado])
 
 
     const handleArquivoChange = (e) => {
@@ -107,6 +146,8 @@ const Cadastro = () => {
                 const formData = new FormData();
                 formData.append('image', arquivoSelecionado);
 
+                const item =JSON.parse(estadoSelecionado? estadoSelecionado : null)
+
                 const userData = {
                     nome,
                     email,
@@ -114,7 +155,7 @@ const Cadastro = () => {
                     senha: password,
                     whatsApp,
                     telefone,
-                    estado: estadoSelecionado,
+                    estado: item.sigla,
                     cidade: cidadeSelecionada,
                     possuiCasaTelada,
                     possuiDisponibilidadeCastrar,
@@ -150,9 +191,6 @@ const Cadastro = () => {
         }
     }
 
-
-    const [estadoSelecionado, setEstadoSelecionado] = useState('');
-    const [cidadeSelecionada, setCidadeSelecionada] = useState('');
 
 
     const handleEstadoChange = (event) => {
@@ -238,8 +276,8 @@ const Cadastro = () => {
                             <label>Selecione seu estado:</label>
                             <select value={estadoSelecionado} onChange={handleEstadoChange}>
                                 <option value="">Todos os Estados</option>
-                                {estados.estados.map((estado) => (
-                                    <option key={estado.sigla} value={estado.sigla}>
+                                {estados?.map((estado) => (
+                                    <option key={estado.sigla} value={JSON.stringify(estado)}>
                                         {estado.nome}
                                     </option>
                                 ))}
@@ -250,21 +288,11 @@ const Cadastro = () => {
                             <label>Selecione sua cidade:</label>
                             <select value={cidadeSelecionada} onChange={handleCidadeChange}>
                                 <option value="">Todas as Cidades</option>
-                                {estadoSelecionado
-                                    ? estados.estados
-                                        .find((estado) => estado.sigla === estadoSelecionado)
-                                        .cidades.map((cidade) => (
-                                            <option key={cidade} value={cidade}>
-                                                {cidade}
-                                            </option>
-                                        ))
-                                    : estados.estados
-                                        .flatMap((estado) => estado.cidades)
-                                        .map((cidade) => (
-                                            <option key={cidade} value={cidade}>
-                                                {cidade}
-                                            </option>
-                                        ))}
+                                {cidade?.map((city) => (
+                                    <option key={city.nome} value={city.nome}>
+                                        {city.nome}
+                                    </option>))}
+
                             </select>
                         </div>
                     </div>

@@ -2,7 +2,6 @@ import * as S from './styles';
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import estados from '../Cadastro/estados.json'
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -22,12 +21,44 @@ const EditarPerfil = () => {
     const [possuiDisponibilidadeCastrar, setPossuiDisponibilidadeCastrar] = useState(false);
     const [possuiDisponibilidadeVacinar, setPossuiDisponibilidadeVacinar] = useState(false);
     const [sobreVoce, setSobreVoce] = useState('');
-    const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
     const [fotoPrincipal, setFotoPrincipal] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
+    const [estados, setEstados] = useState([])
+    const [cidade, setCidade] = useState([])
 
+    useEffect(() => {
+        const fetchStates = async () => {
+            try {
+                const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar estados');
+                }
+                const states = await response.json();
+                setEstados(states)
+            } catch (error) {
+                console.error('Erro ao buscar estados:', error);
+                return [];
+            }
+        };
 
+        const fetchCitiesByState = async (stateId) => {
+            try {
+                const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar cidades');
+                }
+                const cities = await response.json();
+                setCidade(cities)
+            } catch (error) {
+                console.error('Erro ao buscar cidades:', error);
+                return [];
+            }
+        };
+        fetchStates();
+
+        estadoSelecionado && fetchCitiesByState(estadoSelecionado)
+    }, [estadoSelecionado])
 
     useEffect(() => {
         const fetchPerfil = async () => {
@@ -114,7 +145,6 @@ const EditarPerfil = () => {
 
         try {
             const response = await axios.put(`http://localhost:3001/editarPerfil/${userId}`, formData);
-            setSuccess(true);
             history.push(`/perfilUsuario/${userId}`);
         } catch (error) {
             console.error('Erro ao editar perfil:', error);
@@ -133,6 +163,7 @@ const EditarPerfil = () => {
                 </S.areaMenu>
                 <S.area>
                     <p id='cabecalho'> Editar perfil</p>
+                    {error && <h2>{error}</h2>}
                     <div className='areaForm'>
                         <label>Nome:*</label>
                         <input placeholder='' value={nome} onChange={(e) => setNome(e.target.value)} />
@@ -149,11 +180,11 @@ const EditarPerfil = () => {
                     </div>
                     <div className='areaForm'>
                         <div className='areaField'>
-                            <label>Selecione seu estado:</label>
-                            <select className='select' value={estadoSelecionado} onChange={handleEstadoChange}>
+                        <label>Selecione seu estado:</label>
+                            <select value={estadoSelecionado} onChange={handleEstadoChange}>
                                 <option value="">Todos os Estados</option>
-                                {estados.estados.map((estado) => (
-                                    <option key={estado.sigla} value={estado.sigla}>
+                                {estados?.map((estado) => (
+                                    <option key={estado.sigla} value={estado.id}>
                                         {estado.nome}
                                     </option>
                                 ))}
@@ -162,23 +193,13 @@ const EditarPerfil = () => {
 
                         <div className='areaField'>
                             <label>Selecione sua cidade:</label>
-                            <select className='select' value={cidadeSelecionada} onChange={handleCidadeChange}>
+                            <select value={cidadeSelecionada} onChange={handleCidadeChange}>
                                 <option value="">Todas as Cidades</option>
-                                {estadoSelecionado
-                                    ? estados.estados
-                                        .find((estado) => estado.sigla === estadoSelecionado)
-                                        .cidades.map((cidade) => (
-                                            <option key={cidade} value={cidade}>
-                                                {cidade}
-                                            </option>
-                                        ))
-                                    : estados.estados
-                                        .flatMap((estado) => estado.cidades)
-                                        .map((cidade) => (
-                                            <option key={cidade} value={cidade}>
-                                                {cidade}
-                                            </option>
-                                        ))}
+                                {cidade?.map((city) => (
+                                    <option key={city.nome} value={city.nome}>
+                                        {city.nome}
+                                    </option>))}
+
                             </select>
                         </div>
                     </div>
@@ -247,6 +268,8 @@ const EditarPerfil = () => {
                     </div>
 
                 </S.area>
+                <Footer />
+
             </S.areaPerfil>
 
         </S.editarPerfil>

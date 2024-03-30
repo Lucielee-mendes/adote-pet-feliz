@@ -99,6 +99,7 @@ const PerfilUsuario = () => {
                 // Atualizar a lista de pets após a exclusão bem-sucedida (opcional)
                 const updatedPetData = petData.filter(pet => pet._id !== petId);
                 setPetData(updatedPetData);
+                window.location.reload();
             }
         } catch (error) {
             console.error('Erro ao excluir cadastro do pet:', error);

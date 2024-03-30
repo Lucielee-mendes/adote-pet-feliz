@@ -53,6 +53,7 @@ const PerfilPet = () => {
 
     }, [petData]);
 
+    const regex = /_/g;
 
 
     return (
@@ -111,7 +112,7 @@ const PerfilPet = () => {
                             </div>
                             {petData && (
                                 <div>
-                                    <ul>
+                                    <ul style={{textTransform:'capitalize'}}>
                                         {Object.entries(petData.cuidadosVeterinarios).map(([key, value]) => {
                                             return (
                                                 value === true && <li key={key}>{value === true && key}</li>
@@ -121,30 +122,32 @@ const PerfilPet = () => {
                                     </ul>
                                 </div>
                             )}
-
                             {petData && (
                                 <div>
-                                    <ul>
+                                    <ul style={{textTransform:'capitalize'}}>
                                         {Object.entries(petData?.temperamento).map(([key, value]) => (
                                             value === true && <li key={key}>{value === true && key}</li>
                                         ))}
                                     </ul>
                                 </div>
                             )}
+                            <h5>Vive bem em:</h5>
 
                             {petData && (
                                 <div>
-                                    <ul>
-                                        {Object.entries(petData?.viveBem).map(([key, value]) => (
-                                            value === true && <li key={key}>{value === true && key}</li>
-                                        ))}
+                                    <ul style={{textTransform:'capitalize'}}>
+                                        {Object.entries(petData?.viveBem)
+                                            .map(([key, value]) => (
+                                                value === true && <li key={key}>{value === true && key.replace(regex, ' ')}</li>
+                                            ))}
                                     </ul>
                                 </div>
                             )}
+                            <h5>Sociável com:</h5>
 
                             {petData && (
                                 <div>
-                                    <ul>
+                                    <ul style={{textTransform:'capitalize'}}>
                                         {Object.entries(petData?.sociavelCom).map(([key, value]) => (
                                             value === true && <li key={key}>{value === true && key}</li>
 

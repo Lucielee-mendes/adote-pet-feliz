@@ -1,29 +1,23 @@
 
 import * as S from './styles'
-import { useState } from 'react';
-import estados from '../Cadastro/estados.json'
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import imgPerfil from '../../imagens/pet-avatar 1.png'
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { green } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 
 
-
-
-
-
 const CadastroPet = () => {
-    const navigate = useNavigate();
 
-    const { userId } = useParams();
     const [arquivosSelecionados, setArquivosSelecionados] = useState([]);
     const [previewImagem, setPreviewImagem] = useState(null);
     const [errorCadastroPet, setErrorCadastroPet] = useState('');
     const [successCadastroPet, setSuccessCadastroPet] = useState(false);
+    const [estadoSelecionado, setEstadoSelecionado] = useState('');
+    const [cidadeSelecionada, setCidadeSelecionada] = useState('');
+    const [estados, setEstados] = useState([])
+    const [cidade, setCidade] = useState([])
 
     const [nomePet, setNomePet] = useState('');
     const [especie, setEspecie] = useState('');
@@ -52,15 +46,52 @@ const CadastroPet = () => {
     });
 
     const [viveBem, setViveBem] = useState({
-        casa_Com_Quintal: false,
+        Casa_Com_Quintal: false,
         apartamento: false,
     });
     const [sociavelCom, setSociavelCom] = useState({
         gatos: false,
         desconhecidos: false,
         cachorros: false,
-        criancas: false,
+        crianças: false,
     });
+
+    useEffect(() => {
+        const fetchStates = async () => {
+            try {
+                const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar estados');
+                }
+                const states = await response.json();
+                setEstados(states)
+            } catch (error) {
+                console.error('Erro ao buscar estados:', error);
+                return [];
+            }
+        };
+
+        const fetchCitiesByState = async (stateId) => {
+            try {
+                const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar cidades');
+                }
+                const cities = await response.json();
+                setCidade(cities)
+            } catch (error) {
+                console.error('Erro ao buscar cidades:', error);
+                return [];
+            }
+        };
+        fetchStates();
+
+        const item =JSON.parse(estadoSelecionado? estadoSelecionado : null)
+        
+        item  && fetchCitiesByState(item.id)
+
+
+    }, [estadoSelecionado])
 
 
     const handleArquivoChange = (e) => {
@@ -93,8 +124,7 @@ const CadastroPet = () => {
         }
     };
 
-    const [estadoSelecionado, setEstadoSelecionado] = useState('');
-    const [cidadeSelecionada, setCidadeSelecionada] = useState('');
+
 
 
     const handleEstadoChange = (event) => {
@@ -151,14 +181,14 @@ const CadastroPet = () => {
             carente: false,
         })
         setViveBem({
-            casa_Com_Quintal: false,
+            Casa_Com_Quintal: false,
             apartamento: false,
         })
         setSociavelCom({
             gatos: false,
             desconhecidos: false,
             cachorros: false,
-            criancas: false,
+            crianças: false,
         })
 
     }
@@ -174,6 +204,8 @@ const CadastroPet = () => {
                 console.error('Nenhuma foto selecionada.');
                 return;
             }
+
+        }
             const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData'))._id : '';
 
             const formData = new FormData();
@@ -183,6 +215,8 @@ const CadastroPet = () => {
             formData.append(`image`, arquivo);
         });
 
+
+        const item =JSON.parse(estadoSelecionado? estadoSelecionado : null)
         const petData = {
             nomePet,
             especie,
@@ -195,7 +229,7 @@ const CadastroPet = () => {
             temperamento,
             viveBem,
             sociavelCom,
-            estado: estadoSelecionado,
+            estado: item?.sigla,
             cidade: cidadeSelecionada,
             userId,
         };
@@ -208,7 +242,6 @@ const CadastroPet = () => {
                     setSuccessCadastroPet(true)
                     setTimeout(()=>{
                         setSuccessCadastroPet(false);
-
                     }, 2000)
               
                 } else {
@@ -222,7 +255,7 @@ const CadastroPet = () => {
                 setErrorCadastroPet('Erro ao cadastrar pet');
             }
 
-        }
+        
     };
 
 
@@ -238,6 +271,7 @@ const CadastroPet = () => {
                 </S.areaMenu>
                 <S.area>
                     <p id='cabecalho'> Cadastre um novo pet para adoção</p>
+                    {errorCadastroPet && <h3>{errorCadastroPet}</h3>}
                     <div className='areaForm'>
                         <label>Nome do pet:*</label>
                         <input placeholder='' value={nomePet} onChange={(e) => setNomePet(e.target.value)} />
@@ -285,11 +319,12 @@ const CadastroPet = () => {
                     </div>
                     <div className='areaForm'>
                         <div className='areaField'>
-                            <label>Selecione seu estado:</label>
-                            <select className='select' value={estadoSelecionado} onChange={handleEstadoChange}>
+                        <label>Selecione seu estado:</label>
+                            <select value={estadoSelecionado} onChange={handleEstadoChange}>
                                 <option value="">Todos os Estados</option>
-                                {estados.estados.map((estado) => (
-                                    <option key={estado.sigla} value={estado.sigla}>
+                                {estados?.map((estado) => (
+                                            <option key={estado.sigla} value={JSON.stringify(estado)}>
+
                                         {estado.nome}
                                     </option>
                                 ))}
@@ -298,23 +333,13 @@ const CadastroPet = () => {
 
                         <div className='areaField'>
                             <label>Selecione sua cidade:</label>
-                            <select className='select' value={cidadeSelecionada} onChange={handleCidadeChange}>
+                            <select value={cidadeSelecionada} onChange={handleCidadeChange}>
                                 <option value="">Todas as Cidades</option>
-                                {estadoSelecionado
-                                    ? estados.estados
-                                        .find((estado) => estado.sigla === estadoSelecionado)
-                                        .cidades.map((cidade) => (
-                                            <option key={cidade} value={cidade}>
-                                                {cidade}
-                                            </option>
-                                        ))
-                                    : estados.estados
-                                        .flatMap((estado) => estado.cidades)
-                                        .map((cidade) => (
-                                            <option key={cidade} value={cidade}>
-                                                {cidade}
-                                            </option>
-                                        ))}
+                                {cidade?.map((city) => (
+                                    <option key={city.nome} value={city.nome}>
+                                        {city.nome}
+                                    </option>))}
+
                             </select>
                         </div>
                     </div>
@@ -397,7 +422,7 @@ const CadastroPet = () => {
                                         checked={value}
                                         onChange={() => handleCheckboxChange('sociavelCom', key)}
                                     />
-                                    <label htmlFor={key}>{key === 'criancas' ? 'Crianças' : key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                                    <label htmlFor={key}>{key === 'crianças' ? 'Crianças' : key.charAt(0).toUpperCase() + key.slice(1)}</label>
                                 </div>
                             ))}
                         </div>
