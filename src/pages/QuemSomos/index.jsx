@@ -1,17 +1,36 @@
 import * as S from './styles'
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
 
 
 
 const QuemSomos = () => {
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [userId, setUserId] = useState('');
+
+
+    useEffect(() => {
+        const storedUserData = JSON.parse(localStorage.getItem('userData'));
+        if (storedUserData) {
+          setIsLoggedIn(true);
+          setUserId(storedUserData._id);
+        } else {
+          setIsLoggedIn(false);
+          setUserId('');
+        }
+      }, []);
+
 
     return (
         <S.quemSomos>
             <S.areaQuemSomos>
                 <Header />
                 <S.areaMenu>
-                    <p id='home'>Home</p>
+                <Link to="/"> <p id='home'>Home</p></Link>
                     <p>/ Quem somos</p>
                 </S.areaMenu>
                 <S.area>
@@ -47,8 +66,11 @@ const QuemSomos = () => {
                         </p>
                     </div>
                     <div className='botao'>
-                        <button>Adotar agora!</button>
-                        <button onClick={() => window.location.href = "/cadastroPet/:userId"}>Divulgar agora!</button>
+                        <button onClick={() =>{window.location.href = `/queroAdotar`}}>Adotar agora!</button>
+                        <button 
+                        onClick={() =>{
+                            isLoggedIn ? window.location.href = `/cadastroPet/${userId}`:  window.location.href = '/login'
+                        }}>Divulgar agora!</button>
 
                     </div>
 

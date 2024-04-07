@@ -1,17 +1,14 @@
 import * as S from './styles';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import imgPerfil from '../../imagens/download (2) 1.png'
 
 const EditarPerfil = () => {
 
-    const history = useNavigate();
     const { userId } = useParams();
-
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -26,6 +23,7 @@ const EditarPerfil = () => {
     const [previewImagem, setPreviewImagem] = useState(null);
     const [estados, setEstados] = useState([])
     const [cidade, setCidade] = useState([])
+    const [estadoEditado, setEstadoEditado] = useState('')
 
     useEffect(() => {
         const fetchStates = async () => {
@@ -57,27 +55,45 @@ const EditarPerfil = () => {
         };
         fetchStates();
 
-        estadoSelecionado && fetchCitiesByState(estadoSelecionado)
-    }, [estadoSelecionado])
+
+        const estadoEncontrado = estados.find(estado => estado?.sigla === estadoSelecionado);
+
+        if(estadoEncontrado !== undefined && estadoSelecionado === estadoEncontrado?.sigla){
+            estadoEncontrado && fetchCitiesByState(estadoEncontrado.id)
+
+            setEstadoEditado(estadoEncontrado.sigla)
+
+        }else if(estadoEncontrado !== undefined && estadoSelecionado !== estadoEncontrado?.sigla) {
+
+            const item =JSON.parse(estadoSelecionado? estadoSelecionado : null)
+            setEstadoEditado(item.sigla)
+
+            item && fetchCitiesByState(item.id)
+
+        }
+
+
+    }, [estadoSelecionado, estados])
+
 
     useEffect(() => {
         const fetchPerfil = async () => {
             try {
                 const response = await axios.get(`http://localhost:3001/perfilUsuario/${userId}`);
                 const perfil = response.data;
-                setNome(perfil.nome || '');
-                setWhatsapp(perfil.whatsapp || '');
-                setTelefone(perfil.telefone || '');
-                setEstadoSelecionado(perfil.estado || '');
-                setCidadeSelecionada(perfil.cidade || '');
-                setPossuiCasaTelada(perfil.possuiCasaTelada || false);
-                setPossuiDisponibilidadeCastrar(perfil.possuiDisponibilidadeCastrar || false);
-                setPossuiDisponibilidadeVacinar(perfil.possuiDisponibilidadeVacinar || false);
-                setSobreVoce(perfil.sobreVoce || '');
-                setFotoPrincipal(perfil.fotoPrincipal || null);
+                setNome(perfil.userData.nome || '');
+                setWhatsapp(perfil.userData.whatsApp   || '');
+                setTelefone(perfil.userData.telefone || '');
+                setEstadoSelecionado(perfil.userData.estado || '');
+                setCidadeSelecionada(perfil.userData.cidade || '');
+                setPossuiCasaTelada(perfil.userData.possuiCasaTelada || false);
+                setPossuiDisponibilidadeCastrar(perfil.userData.possuiDisponibilidadeCastrar || false);
+                setPossuiDisponibilidadeVacinar(perfil.userData.possuiDisponibilidadeVacinar || false);
+                setSobreVoce(perfil.userData.sobreVoce || '');
+                setFotoPrincipal(perfil.userData.fotoPrincipal || null);
 
-                if (perfil.fotoPrincipal) {
-                    setPreviewImagem(perfil.fotoPrincipal);
+                if (perfil.userData.fotoPrincipal) {
+                    setPreviewImagem(perfil.userData.fotoPrincipal);
                 } else {
                     setPreviewImagem(imgPerfil);
                 }
@@ -88,6 +104,7 @@ const EditarPerfil = () => {
 
         fetchPerfil();
     }, [userId]);
+    
 
     const handleEstadoChange = (event) => {
         setEstadoSelecionado(event.target.value);
@@ -127,12 +144,11 @@ const EditarPerfil = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-      
         const formData = {
             nome,
-            whatsapp,
+            whatsApp: whatsapp,
             telefone,
-            estado: estadoSelecionado,
+            estado: estadoEditado,
             cidade: cidadeSelecionada,
             possuiCasaTelada,
             possuiDisponibilidadeCastrar,
@@ -145,20 +161,23 @@ const EditarPerfil = () => {
 
         try {
             const response = await axios.put(`http://localhost:3001/editarPerfil/${userId}`, formData);
-            history.push(`/perfilUsuario/${userId}`);
+            if(response.status === 200){
+                window.location.href=`/perfilUsuario/${userId}`
+            }
+            setError("")
         } catch (error) {
             console.error('Erro ao editar perfil:', error);
+            console.log({error})
             setError('Erro ao editar perfil. Por favor, tente novamente.');
         }
     };
-
     return (
         <S.editarPerfil>
             <S.areaPerfil>
                 <Header />
                 <S.areaMenu >
-                    <p id='home'>Home</p>
-                    <p>/ Meu perfil</p>
+                <Link to="/"> <p id='home'>Home</p></Link>
+                  <Link to={`/perfilUsuario/${userId}`}> <p>/ Meu perfil</p> </Link> 
                     <p>/ Editar perfil</p>
                 </S.areaMenu>
                 <S.area>
@@ -184,8 +203,8 @@ const EditarPerfil = () => {
                             <select value={estadoSelecionado} onChange={handleEstadoChange}>
                                 <option value="">Todos os Estados</option>
                                 {estados?.map((estado) => (
-                                    <option key={estado.sigla} value={estado.id}>
-                                        {estado.nome}
+                                    <option key={estado.sigla} value={JSON.stringify(estado)}>
+                                    {estado.nome}
                                     </option>
                                 ))}
                             </select>

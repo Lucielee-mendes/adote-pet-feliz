@@ -2,17 +2,28 @@ import styled from "styled-components";
 
 export const formulario = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Divide a tela em duas colunas */
-  grid-template-areas: "areaImg areaForm"; /* Define as áreas */
+  grid-template-columns: 1fr; /* Divide a tela em duas colunas */
+  grid-template-areas: "areaForm"; /* Define as áreas */
   height: 100vh;
   overflow: hidden;
   width: 100%;
+
+  @media (min-width: 1000px) {
+    grid-template-columns: 1fr 1fr; /* Divide a tela em duas colunas */
+    grid-template-areas: "areaImg areaForm"; /* Define as áreas */
+ 
+  }
 `;
 
 export const areaImg = styled.div`
-  grid-area: areaImg; /* Especifica a área da imagem */
-  position: relative;
-  overflow: hidden;
+ display: none;
+  @media (min-width: 1000px) {
+    display: block;
+
+    grid-area: areaImg; /* Especifica a área da imagem */
+    position: relative;
+   overflow: hidden;
+  }
 `;
 
 export const ImgBackground = styled.img`

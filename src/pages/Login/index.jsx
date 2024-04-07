@@ -4,7 +4,7 @@ import imgLogo from '../../imagens/image0 1logo.png';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const LoginPage = () => {

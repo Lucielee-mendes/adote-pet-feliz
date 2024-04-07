@@ -9,7 +9,6 @@ import Footer from '../../components/Footer';
 const QueroAdotar = () => {
     const [filterData, setFilterData] = useState([])
     const [petData, setPetData] = useState([]);
-
     const [search, setSearch] = useState("")
     const [especie, setEspecie] = useState("")
     const [sexo, setSexo] = useState("")
@@ -19,8 +18,6 @@ const QueroAdotar = () => {
     const [cidade, setCidadeFilter] = useState('')
     const [estados, setEstados] = useState([])
     const [cidades, setCidades] = useState([])
-
-
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(8);
 
@@ -79,7 +76,6 @@ const QueroAdotar = () => {
         return petData.filter((item) => {
 
             const itemEstado = JSON.parse(estadoFilter ? estadoFilter : null)
-
             const nomeMatch = search === "" || item.nomePet.toLowerCase().includes(search.toLowerCase());
             const especieMatch = especie === '' || especie === 'todos' || item.especie.toLowerCase() === especie.toLowerCase();
             const sexoMatch = sexo === '' || sexo === 'todos' || item.sexo.toLowerCase() === sexo.toLowerCase();

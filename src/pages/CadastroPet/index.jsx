@@ -18,7 +18,6 @@ const CadastroPet = () => {
     const [cidadeSelecionada, setCidadeSelecionada] = useState('');
     const [estados, setEstados] = useState([])
     const [cidade, setCidade] = useState([])
-
     const [nomePet, setNomePet] = useState('');
     const [especie, setEspecie] = useState('');
     const [sexo, setSexo] = useState('');

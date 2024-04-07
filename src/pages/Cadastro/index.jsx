@@ -1,5 +1,5 @@
 import * as S from './styles'
-import imgBackground from '../../imagens/Login1.png'
+import imgBackground from '../../imagens/fundoSite1.png'
 import imgLogo from '../../imagens/image0 1logo.png'
 import imgPerfil from '../../imagens/download (2) 1.png'
 import { useEffect, useState } from 'react';
@@ -23,8 +23,6 @@ const Cadastro = () => {
     const [telefone, setTeletone] = useState("")
     const [confereEmail, setConfereEmail] = useState("")
     const [isvalidEmail, setIsValidEmail] = useState(null)
-    const [isValidTelefone, setIsValidTelefone] = useState(null);
-    const [numberPhone, setNumberPhone] = useState('')
     const [sobreVoce, setSobreVoce] = useState("");
     const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
@@ -96,29 +94,6 @@ const Cadastro = () => {
         setIsValidEmail(isValid);
     };
 
-
-    const handleChangePhone = (e) => {
-        setWhatsApp(e.target.value)
-        const numberFormat = formatarNumeroCelular(e.target.value)
-        setNumberPhone((numberFormat))
-    }
-
-    const formatarNumeroCelular = (numero) => {
-        const numeroLimpo = numero.replace(/\D/g, '');
-
-        const regexFormato = /^(\d{2})(\d{5})(\d{4})$/;
-        const numeroFormatado = numeroLimpo.replace(regexFormato, '($1) $2-$3');
-
-        return numeroFormatado;
-    };
-    const validateTelefone = (inputTelefone) => {
-        const telefoneRegex = /^\d{10,}$/; // Pelo menos 10 dígitos numéricos
-        const isValid = telefoneRegex.test(inputTelefone);
-        setIsValidTelefone(isValid);
-    };
-
-
-
     const handleCadastro = async () => {
 
         if (isCadastro === false) {
@@ -129,10 +104,6 @@ const Cadastro = () => {
             if (email.length > 0) {
                 validateEmail(email);
 
-            }
-
-            if (whatsApp.length > 0) {
-                validateTelefone(whatsApp);
             }
 
             if (email !== confirmEmail) {
@@ -180,10 +151,10 @@ const Cadastro = () => {
                         setErrorCadastro(response.data.error || 'Erro ao cadastrar usuário');
                     }
                 } catch (error) {
-                    console.error('Erro ao cadastrar usuário:', error);
+                    console.log('Erro ao cadastrar usuário:', error.response.data.error);
                     console.error('Error response data:', error.response.data); // Adiciona esta linha para capturar detalhes da resposta
                     setIsCadastro(false);
-                    setErrorCadastro('Erro ao cadastrar usuário');
+                    setErrorCadastro(`Erro ao cadastrar usuario ${error.response.data.error}`);
                 }
             } else {
                 setIsCadastro(false);
@@ -223,7 +194,9 @@ const Cadastro = () => {
     return (
         <S.formulario>
             <S.areaImg>
-                <S.ImgBackground src={imgBackground} alt="Background" />
+             <div className='image-fixed'>
+             <S.ImgBackground src={imgBackground} alt="Background" />
+             </div>
             </S.areaImg>
             <S.areaForm>
                 <Link to="/">
@@ -234,7 +207,6 @@ const Cadastro = () => {
                 <S.area>
                     {errorCadastro?.length > 0 && (<p style={{ color: "red", textDecoration: "none", fontWeight: "bold" }}>{errorCadastro}</p>)}
                     {isvalidEmail === false && <p style={{ color: 'red', textDecoration: 'none', fontWeight: "bold" }}>E-mail invalido</p>}
-                    {isValidTelefone === false && <p style={{ color: 'red', textDecoration: 'none', fontWeight: "bold" }}>whatsApp invalido</p>}
                     {isCadastro && <p style={{ color: 'green', textDecoration: 'none', fontWeight: "bold" }}>Cadastro com sucesso</p>}
                     {confereEmail?.length > 0 && (<p style={{ color: "red", textDecoration: "none", fontWeight: "bold" }}>{confereEmail}</p>)}
 
@@ -258,11 +230,11 @@ const Cadastro = () => {
                     </div>
                     <div className='areaForm'>
                         <label>WhatsApp*:</label>
-                        <input value={numberPhone} onChange={(e) => handleChangePhone(e)} />
+                        <input type='number' value={whatsApp} onChange={(e) => setWhatsApp(e.target.value)} />
                     </div>
                     <div className='areaForm'>
                         <label>Telefone:</label>
-                        <input value={telefone} onChange={(e) => setTeletone(e.target.value)} />
+                        <input  type='number'value={telefone} onChange={(e) => setTeletone(e.target.value)} />
                     </div>
                     <div className='areaForm' id='divIMG'>
                         <label>Foto principal:</label>

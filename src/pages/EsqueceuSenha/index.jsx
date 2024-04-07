@@ -3,7 +3,7 @@ import imgBackground from '../../imagens/Login1.png'
 import imgLogo from '../../imagens/image0 1logo.png'
 import { useState } from 'react';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 

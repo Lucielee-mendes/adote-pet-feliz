@@ -38,6 +38,10 @@ p{
   display: inline-block;
   margin-left: 10px;
 }
+a{
+  color: #000!important;
+  text-decoration: none!important;
+}
 #home{
   color: #48A111;
 }

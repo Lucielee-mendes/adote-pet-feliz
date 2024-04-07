@@ -2,11 +2,17 @@ import styled from "styled-components";
 
 export const formulario = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Divide a tela em duas colunas */
-  grid-template-areas: "areaImg areaForm"; /* Define as áreas */
   height: 100vh;
   overflow-y: auto;
   width: 100%;
+  grid-template-columns: 1fr; /* Divide a tela em duas colunas */
+  grid-template-areas: "areaForm"; /* Define as áreas */
+ 
+  @media (min-width: 1000px) {
+    grid-template-columns: 1fr 1fr; /* Divide a tela em duas colunas */
+    grid-template-areas: "areaImg areaForm"; /* Define as áreas */
+ 
+  }
   @media (max-width: 600px) {
     grid-template-columns: 1fr; /* Divide a tela em duas colunas */
 
@@ -14,9 +20,22 @@ export const formulario = styled.div`
 `;
 
 export const areaImg = styled.div`
-  grid-area: areaImg; /* Especifica a área da imagem */
-  position: relative;
-  overflow: hidden;
+display: none;
+  @media (min-width: 1000px) {
+    grid-area: areaImg; 
+    display: block;
+    position: relative;
+    overflow: hidden;
+    background-color: #fdc7fc;
+
+    .image-fixed{
+    position: fixed;
+    left: 2rem;
+    bottom: -1rem;
+}
+ 
+  }
+  
 `;
 
 export const ImgBackground = styled.img`

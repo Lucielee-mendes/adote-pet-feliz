@@ -78,6 +78,15 @@ display: flex;
     }
    
   }
+  .areaImg{
+    display: block;
+  }
+  .imgpets{
+    padding: 10px;
+    width: 5rem;
+    height: 5rem;
+    display: block;
+  }
   .informacoes{
     display: inline-block;
     vertical-align: top;
@@ -177,7 +186,7 @@ display: flex;
       color: white;
       border: 0 solid;
       border-radius: 5px;
-      padding: 7px;
+      padding: 10px 4px;
       width: 100px;
       font-weight: bold;
      

@@ -16,6 +16,7 @@ const PerfilPet = () => {
     const [petData, setPetData] = useState(null);
     const [images, setImages] = useState('')
     const [userData, setUserData] = useState([])
+    
 
     useEffect(() => {
         const fetchData = async () => {
@@ -55,7 +56,12 @@ const PerfilPet = () => {
 
     const regex = /_/g;
 
+    const handleQueroAdotar = () => {
+        const mensagem = encodeURIComponent('Olá! Estou interessado(a) em adotar o seu pet. Gostaria de mais informações');
+        window.open(`https://wa.me/${userData?.userData?.whatsApp}?text=${mensagem}`, '_blank');
+    };
 
+    console.log({petData})
     return (
         <S.perfil>
             <S.areaPerfil>
@@ -68,9 +74,22 @@ const PerfilPet = () => {
                 <S.area>
                     <S.secaoPerfil>
 
-                        <img className='imgPerfil'
-                            src={`http://localhost:3001/getImagem/${petData?.fotos[0].file}` || images} />
+                                  <img className='imgPerfil' alt='img-pet'
+                            src={`http://localhost:3001/getImagem/${petData?.fotos[0]?.file}` || images} />
 
+                            
+
+                      <div className='areaImg'>
+                      {petData?.fotos?.map((foto)=>{
+                            return(
+                                  <img className='imgpets' alt='img-pet'
+                            src={`http://localhost:3001/getImagem/${foto.file}` || images} />
+
+                            )
+                        })}
+
+                      </div>
+                      
 
                         <div className='informacoes'>
                             <p id='nome'>{petData?.nomePet || 'Nome pet'}</p>
@@ -156,7 +175,7 @@ const PerfilPet = () => {
                                 </div>
                             )}
                             <div className='buttonarea'>
-                                <button>Quero Adotar</button>
+                                <button onClick={handleQueroAdotar}>Quero Adotar</button>
                             </div>
                         </div>
 

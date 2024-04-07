@@ -8,7 +8,7 @@ import imgCard2 from "../../imagens/card2.png"
 import imgCard3 from "../../imagens/card3.png"
 import imgCard4 from "../../imagens/card4.png"
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const HomePage = () => {
@@ -70,7 +70,7 @@ const HomePage = () => {
                         )}
                     </S.petList>
                     <div className='vermais'>
-                        <button > Ver mais</button>
+                        <button onClick={() =>{window.location.href = `/queroAdotar`}}> Ver mais</button>
                     </div>
                     <div>
                         <p id='titulo'>Por que escolher a adoção?</p>

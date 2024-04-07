@@ -19,7 +19,6 @@ const PerfilUsuario = () => {
     const [isOwnProfile, setIsOwnProfile] = useState(false);
     const [image, setImage] = useState('')
     const [petData, setPetData] = useState([]);
-    const [imgPet, setImgPet] = useState([]);
 
 
     useEffect(() => {
@@ -36,28 +35,13 @@ const PerfilUsuario = () => {
                 } else {
                     setIsOwnProfile(false);
                 }
-                // setPetData(response.data.pets || []);
 
             } catch (error) {
                 console.error('Erro ao obter dados do usuário:', error);
             }
         };
 
-        // if (!userData) {
-        //     const storedUserData = JSON.parse(localStorage.getItem('userData'));
-        //     if (storedUserData) {
-        //         setUserData(storedUserData);
-
-        //         if (storedUserData._id === userId) {
-        //             setIsOwnProfile(true);
-        //         } else {
-        //             fetchData();
-        //         }
-
-        //     } 
-        // }else{
-        //     fetchData()
-        // }
+      
 
         fetchData()
     }, [userId]);
@@ -215,8 +199,6 @@ const PerfilUsuario = () => {
                 </S.area>
 
                 <Footer />
-
-
             </S.areaPerfil>
         </S.perfil>
     );
