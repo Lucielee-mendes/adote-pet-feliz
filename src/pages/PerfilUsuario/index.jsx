@@ -14,13 +14,16 @@ const PerfilUsuario = () => {
 
     const navigate = useNavigate();
 
+    // Utiliza o hook useParams para obter o ID do usuário da URL
     const { userId } = useParams();
+    
+    // Definição dos estados locais para armazenar os dados
     const [userData, setUserData] = useState(null);
     const [isOwnProfile, setIsOwnProfile] = useState(false);
     const [image, setImage] = useState('')
     const [petData, setPetData] = useState([]);
 
-
+    // useEffect para buscar os dados do usuário com base no ID fornecido na URL
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -30,6 +33,7 @@ const PerfilUsuario = () => {
 
                 setUserData(response.data);
 
+                // Verifica se o usuário logado é o proprietário do perfil
                 if (storedUserData && response.data._id === storedUserData._id || storedUserData._id === userId) {
                     setIsOwnProfile(true);
                 } else {
@@ -41,11 +45,10 @@ const PerfilUsuario = () => {
             }
         };
 
-      
-
         fetchData()
     }, [userId]);
 
+    // useEffect para buscar a imagem principal do usuário
     useEffect(() => {
         const getImage = async () => {
             const response = await axios.get(`http://localhost:3001/getImagem/${userData?.fotoPrincipal}`);
@@ -54,14 +57,13 @@ const PerfilUsuario = () => {
         userData && getImage()
     }, [userData])
 
-
-
-
+    // Função para lidar com o logout do usuário
     const handleLogout = () => {
         localStorage.removeItem('userData'); // Limpa os dados de usuário armazenados no localStorage
         navigate('/'); // Redireciona para a página inicial após o logout
     };
 
+ // Função para lidar com a exclusão da conta do usuário
     const handleDeleteAccount = async () => {
         try {
             const response = await axios.delete(`http://localhost:3001/excluirConta/${userId}`);
@@ -75,22 +77,24 @@ const PerfilUsuario = () => {
         }
     };
 
+    // Função para lidar com a exclusão de um pet
     const handleDeletePet = async (petId) => {
         try {
             const response = await axios.delete(`http://localhost:3001/perfilPet/${petId}`);
             if (response.status === 200) {
                 alert('Cadastro do pet excluído com sucesso.');
-                // Atualizar a lista de pets após a exclusão bem-sucedida (opcional)
+                // Atualizar a lista de pets após a exclusão bem-sucedida
                 const updatedPetData = petData.filter(pet => pet._id !== petId);
                 setPetData(updatedPetData);
-                window.location.reload();
+                window.location.reload();// Recarrega a página após a exclusão
             }
         } catch (error) {
             console.error('Erro ao excluir cadastro do pet:', error);
             alert('Erro ao excluir cadastro do pet. Por favor, tente novamente mais tarde.');
         }
     };
-
+    
+    // useEffect para buscar os pets divulgados pelo usuário
     useEffect(() => {
         const fetchPets = async (userId) => {
             try {

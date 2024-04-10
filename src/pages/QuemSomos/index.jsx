@@ -9,16 +9,19 @@ import { useEffect, useState } from 'react';
 
 const QuemSomos = () => {
 
+    // Estados locais para verificar se o usuário está logado e armazenar seu ID
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userId, setUserId] = useState('');
 
-
+    // useEffect para verificar se o usuário está logado ao montar o componente
     useEffect(() => {
         const storedUserData = JSON.parse(localStorage.getItem('userData'));
         if (storedUserData) {
+          // Define o estado de login como true e armazena o ID do usuário
           setIsLoggedIn(true);
           setUserId(storedUserData._id);
         } else {
+        // Define o estado de login como false e o ID do usuário como vazio
           setIsLoggedIn(false);
           setUserId('');
         }

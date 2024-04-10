@@ -7,6 +7,8 @@ import Footer from '../../components/Footer';
 
 
 const QueroAdotar = () => {
+
+ // Estados locais para armazenar os dados
     const [filterData, setFilterData] = useState([])
     const [petData, setPetData] = useState([]);
     const [search, setSearch] = useState("")
@@ -21,6 +23,7 @@ const QueroAdotar = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(8);
 
+    // Função para buscar estados da API do IBGE ao carregar o componente
     useEffect(() => {
         const fetchStates = async () => {
             try {
@@ -36,6 +39,7 @@ const QueroAdotar = () => {
             }
         };
 
+        // Função para buscar as cidades por estado
         const fetchCitiesByState = async (stateId) => {
             try {
                 const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
@@ -57,7 +61,7 @@ const QueroAdotar = () => {
     }, [estadoFilter])
 
 
-
+// useEffect para buscar os dados dos pets
     useEffect(() => {
         const fetchPets = async () => {
             try {
@@ -71,7 +75,7 @@ const QueroAdotar = () => {
         fetchPets();
     }, []);
 
-
+    // Função para filtrar os pets com base nos critérios de busca
     function filterPets() {
         return petData.filter((item) => {
 
@@ -88,24 +92,26 @@ const QueroAdotar = () => {
         });
     }
 
-
-
+    // Função para lidar com o clique no botão de busca
     const handleSearchClick = () => {
         const filteredData = filterPets();
         setFilterData(filteredData);
     };
 
+    // Função para a paginação
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
 
-
+    // Renderização do componente
     return (
         <S.queroAdotar>
             <S.areaQueroAdotar>
+                {/* Componente Header */}
                 <Header />
                 <S.areaMenu>
+                   {/* Links de navegação */}
                     <Link to="/"> <p id='home'>Home</p></Link>
                     <p>/ Quero adotar</p>
                 </S.areaMenu>
@@ -172,6 +178,7 @@ const QueroAdotar = () => {
 
 
                     <S.List>
+                        {/* Lista de pets */}
                         {currentItems.map((val, key) => (
                             <Link id="petLink" key={key} to={`/perfilPet/${val._id}`}>
 
@@ -192,7 +199,6 @@ const QueroAdotar = () => {
                                 </Link>
                         ))}
 
-
                                 <div className='pagination'>
                                     <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
                                         Anterior
@@ -203,10 +209,8 @@ const QueroAdotar = () => {
                                 </div>
 
                             </S.List>
-
                 </div>
-
-
+                {/* Componente Footer */}
                 <Footer />
             </S.areaQueroAdotar>
         </S.queroAdotar>

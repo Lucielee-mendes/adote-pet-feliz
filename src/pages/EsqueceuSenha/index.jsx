@@ -9,25 +9,28 @@ import { Link } from 'react-router-dom';
 
 const EsqueceuSenha = () => {
 
+// Definição dos estados locais
     const [email, setEmail] = useState('');
     const [senha, setsenha] = useState("")
     const [confirmePassword, setConfirmePassword] = useState("")
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
 
-
+    // Função para lidar com a redefinição de senha
     const handlePassword = async () => {
         try {
+            // Verifica se todos os campos foram preenchidos
             if (!email || !senha || !confirmePassword) {
                 setError('Preencha todos os campos');
                 return;
             }
-
+            // Verifica se as senhas coincidem
             if (senha !== confirmePassword) {
                 setError("Senhas não estão iguais")
                 return;
             }
-
+            
+            // Envia uma solicitação para redefinir a senha
             const response = await axios.post('http://localhost:3001/esqueceuSenha', { email, senha });
 
 

@@ -12,12 +12,15 @@ import { Link } from 'react-router-dom';
 
 
 const PerfilPet = () => {
+     // Utiliza o hook useParams para obter o ID do pet da URL
     const { petId } = useParams();
+
+     // Definição dos estados locais para armazenar os dados do pet, imagens e dados do usuário proprietário   
     const [petData, setPetData] = useState(null);
     const [images, setImages] = useState('')
     const [userData, setUserData] = useState([])
     
-
+    // useEffect para buscar os dados do pet com base no ID fornecido na URL
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -38,7 +41,7 @@ const PerfilPet = () => {
     }, [petId]);
 
 
-
+    // useEffect para buscar os dados do usuário proprietário do pet
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -49,19 +52,20 @@ const PerfilPet = () => {
                 console.error('Erro ao obter dados do usuário:', error);
             }
         };
-
+        // Verifica se os dados do pet estão disponíveis antes de buscar os dados do usuário
         petData && fetchData()
 
     }, [petData]);
 
+    // Expressão regular para substituir underscores por espaços nos nomes de categorias
     const regex = /_/g;
 
+    // Função para lidar com o clique no botão "Quero Adotar". Direcionamento ao WhatsApp
     const handleQueroAdotar = () => {
         const mensagem = encodeURIComponent('Olá! Estou interessado(a) em adotar o seu pet. Gostaria de mais informações');
         window.open(`https://wa.me/${userData?.userData?.whatsApp}?text=${mensagem}`, '_blank');
     };
 
-    console.log({petData})
     return (
         <S.perfil>
             <S.areaPerfil>

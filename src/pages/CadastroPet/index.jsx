@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 
 const CadastroPet = () => {
 
+    // Estados locais para armazenar dados do formulário
     const [arquivosSelecionados, setArquivosSelecionados] = useState([]);
     const [previewImagem, setPreviewImagem] = useState(null);
     const [errorCadastroPet, setErrorCadastroPet] = useState('');
@@ -55,6 +56,7 @@ const CadastroPet = () => {
         crianças: false,
     });
 
+     // Função para buscar estados da API do IBGE ao carregar o componente
     useEffect(() => {
         const fetchStates = async () => {
             try {
@@ -70,6 +72,7 @@ const CadastroPet = () => {
             }
         };
 
+        // Função para buscar cidades de acordo com o estado selecionado
         const fetchCitiesByState = async (stateId) => {
             try {
                 const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
@@ -83,7 +86,7 @@ const CadastroPet = () => {
                 return [];
             }
         };
-        fetchStates();
+        fetchStates(); // Chamada da função para buscar estados ao carregar o componente
 
         const item =JSON.parse(estadoSelecionado? estadoSelecionado : null)
         
@@ -92,7 +95,7 @@ const CadastroPet = () => {
 
     }, [estadoSelecionado])
 
-
+    // Função para lidar com a seleção de arquivos de imagem do pet
     const handleArquivoChange = (e) => {
         const novosArquivos = e.target.files;
 
@@ -111,6 +114,7 @@ const CadastroPet = () => {
         }
     };
 
+    // Função para lidar com a mudança de checkbox em uma categoria específica
     const handleCheckboxChange = (category, key) => {
         if (category === 'cuidadosVeterinarios') {
             setCuidadosVeterinarios((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -125,16 +129,18 @@ const CadastroPet = () => {
 
 
 
-
+    // Função para lidar com a mudança de estado selecionado no formulário
     const handleEstadoChange = (event) => {
         setEstadoSelecionado(event.target.value);
         setCidadeSelecionada(''); // Resetar a cidade ao trocar de estado
     };
 
+    // Função para lidar com a mudança de cidade selecionada no formulário
     const handleCidadeChange = (event) => {
         setCidadeSelecionada(event.target.value);
     };
 
+    // Função para validar os dados do formulário de cadastro do pet
     const validateCadastroPet = () => {
         if (
             nomePet.trim() === '' ||
@@ -152,6 +158,7 @@ const CadastroPet = () => {
         return true;
     };
 
+    // Função para limpar os dados do formulário após o cadastro ser realizado com sucesso
     const clearData = ()=>{
         setNomePet('')
         setEspecie('')
@@ -192,29 +199,31 @@ const CadastroPet = () => {
 
     }
 
+    // Função para lidar com o cadastro do pet
     const handleCadastroPet = async () => {
 
         if (successCadastroPet === false) {
-
+            // Validar os dados do formulário antes de prosseguir com o cadastro
             if (!validateCadastroPet()) {
                 return;
             }
+            // Verificar se pelo menos uma imagem foi selecionada para o pet
             if (!arquivosSelecionados || arquivosSelecionados.length === 0) {
                 console.error('Nenhuma foto selecionada.');
                 return;
             }
 
         }
+            // Obter o ID do usuário logado, se existir
             const userId = localStorage.getItem('userData') ? JSON.parse(localStorage.getItem('userData'))._id : '';
 
+             // Criar um objeto FormData para enviar os dados do pet e as imagens ao servidor
             const formData = new FormData();
-
-         
             arquivosSelecionados.forEach((arquivo, index) => {
             formData.append(`image`, arquivo);
         });
 
-
+        // Obter o objeto de estado selecionado para enviar apenas a sigla do estado no corpo da requisição
         const item =JSON.parse(estadoSelecionado? estadoSelecionado : null)
         const petData = {
             nomePet,
@@ -233,10 +242,12 @@ const CadastroPet = () => {
             userId,
         };
 
-        formData.append('json', JSON.stringify(petData));
+        formData.append('json', JSON.stringify(petData)); // Adicionar os dados do pet ao objeto FormData
             try {
+                 // Enviar os dados do pet para o servidor
                 const response = await axios.post(`http://localhost:3001/cadastroPet/${userId}`, formData);
                 if (response.status === 201 ) {
+                    // Limpar os dados do formulário e exibir mensagem de sucesso após o cadastro ser realizado com sucesso
                     clearData()
                     setSuccessCadastroPet(true)
                     setTimeout(()=>{
@@ -244,6 +255,7 @@ const CadastroPet = () => {
                     }, 2000)
               
                 } else {
+                    // Exibir mensagem de erro caso ocorra algum problema durante o cadastro
                     setSuccessCadastroPet(false);
                     console.error('Error response data:', response.data || 'No response data available');
                     setErrorCadastroPet(response.data.error || 'Erro ao cadastrar pet');

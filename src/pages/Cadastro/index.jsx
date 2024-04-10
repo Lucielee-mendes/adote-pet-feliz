@@ -9,11 +9,12 @@ import { Link } from 'react-router-dom';
 
 
 
-
+// Componente de Cadastro
 const Cadastro = () => {
-    const history = useNavigate();
+    const history = useNavigate();// Hook para navegação
 
-    const [isCadastro, setIsCadastro] = useState(false) // isso é um estado local uma constante que vai ser definida para essa pagina
+    // Estados locais para armazenar dados do formulário
+    const [isCadastro, setIsCadastro] = useState(false) 
     const [nome, setNome] = useState("")
     const [email, setEmail] = useState("")
     const [confirmEmail, setConfirmEmail] = useState("")
@@ -30,10 +31,17 @@ const Cadastro = () => {
     const [cidadeSelecionada, setCidadeSelecionada] = useState('');
     const [estados, setEstados] = useState([])
     const [cidade, setCidade] = useState([])
+    const [possuiCasaTelada, setPossuiCasaTelada] = useState(false);
+    const [possuiDisponibilidadeCastrar, setPossuiDisponibilidadeCastrar] = useState(false);
+    const [possuiDisponibilidadeVacinar, setPossuiDisponibilidadeVacinar] = useState(false);
 
+
+
+    // Função para buscar estados da API do IBGE ao carregar o componente
     useEffect(() => {
         const fetchStates = async () => {
             try {
+                // Requisição para buscar estados
                 const response = await fetch('https://servicodados.ibge.gov.br/api/v1/localidades/estados');
                 if (!response.ok) {
                     throw new Error('Erro ao buscar estados');
@@ -46,8 +54,10 @@ const Cadastro = () => {
             }
         };
 
+        // Função para buscar cidades de acordo com o estado selecionado
         const fetchCitiesByState = async (stateId) => {
             try {
+                // Requisição para buscar cidades
                 const response = await fetch(`https://servicodados.ibge.gov.br/api/v1/localidades/estados/${stateId}/municipios`);
                 if (!response.ok) {
                     throw new Error('Erro ao buscar cidades');
@@ -59,21 +69,19 @@ const Cadastro = () => {
                 return [];
             }
         };
-        fetchStates();
+        fetchStates(); // Chamada da função para buscar estados ao carregar o componente
 
-
+        // Busca as cidades quando o estado selecionado é alterado
         const item =JSON.parse(estadoSelecionado? estadoSelecionado : null)
 
         item && fetchCitiesByState(item.id)
     }, [estadoSelecionado])
 
-
+    // Função para lidar com a seleção de um arquivo de imagem
     const handleArquivoChange = (e) => {
         const file = e.target.files[0];
 
         if (file) {
-
-
             setArquivoSelecionado(file);
 
             const leitor = new FileReader();
@@ -87,15 +95,16 @@ const Cadastro = () => {
     };
 
 
-
+    // Função para validar o formato de e-mail
     const validateEmail = (inputEmail) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         const isValid = emailRegex.test(inputEmail);
         setIsValidEmail(isValid);
     };
 
+    // Função para lidar com o cadastro do usuário
     const handleCadastro = async () => {
-
+        // Validação dos campos do formulário
         if (isCadastro === false) {
             if (nome.length === 0 || email.length === 0 || confirmEmail.length === 0 || password.length === 0 || whatsApp.length === 0) {
                 setErrorCadastro("Preencha todos os campos")
@@ -112,7 +121,7 @@ const Cadastro = () => {
                 return;
             }
 
-
+            // Se o e-mail for válido e a senha não estiver vazia, envia os dados para o backend
             if (isvalidEmail && password.length > 0) {
                 const formData = new FormData();
                 formData.append('image', arquivoSelecionado);
@@ -137,6 +146,7 @@ const Cadastro = () => {
                 formData.append('json', JSON.stringify(userData))
 
                 try {
+                     // Requisição POST para cadastrar o usuário
                     const response = await axios.post('http://localhost:3001/cadastro', formData);
 
                     if (response.status === 201) {
@@ -144,15 +154,14 @@ const Cadastro = () => {
                         localStorage.setItem('userData', JSON.stringify(userData));
                         setIsCadastro(true);
 
-                        history('/login');
+                        history('/login'); // Redireciona para a página de login
                     } else {
                         setIsCadastro(false);
-                        console.error('Error response data:', response.data || 'No response data available'); // Alteração aqui
+                        console.error('Error response data:', response.data || 'No response data available');
                         setErrorCadastro(response.data.error || 'Erro ao cadastrar usuário');
                     }
                 } catch (error) {
-                    console.log('Erro ao cadastrar usuário:', error.response.data.error);
-                    console.error('Error response data:', error.response.data); // Adiciona esta linha para capturar detalhes da resposta
+                    console.error('Error response data:', error.response.data); 
                     setIsCadastro(false);
                     setErrorCadastro(`Erro ao cadastrar usuario ${error.response.data.error}`);
                 }
@@ -163,25 +172,23 @@ const Cadastro = () => {
     }
 
 
-
+    // Funções para lidar com a seleção de estado e cidade
     const handleEstadoChange = (event) => {
         setEstadoSelecionado(event.target.value);
-        setCidadeSelecionada(''); // Resetar a cidade ao trocar de estado
+        setCidadeSelecionada(''); 
     };
 
     const handleCidadeChange = (event) => {
         setCidadeSelecionada(event.target.value);
     };
 
-    const [possuiCasaTelada, setPossuiCasaTelada] = useState(false);
-
+    
+    // Funções para lidar com a seleção de opções de checkbox
     const handleCheckboxChange = (value) => {
         setPossuiCasaTelada(value);
     };
 
-    const [possuiDisponibilidadeCastrar, setPossuiDisponibilidadeCastrar] = useState(false);
-    const [possuiDisponibilidadeVacinar, setPossuiDisponibilidadeVacinar] = useState(false);
-
+    
     const handleCheckboxChangeCastrar = () => {
         setPossuiDisponibilidadeCastrar(!possuiDisponibilidadeCastrar);
     };
@@ -190,7 +197,7 @@ const Cadastro = () => {
         setPossuiDisponibilidadeVacinar(!possuiDisponibilidadeVacinar);
     };
 
-
+    // Renderização do componente
     return (
         <S.formulario>
             <S.areaImg>

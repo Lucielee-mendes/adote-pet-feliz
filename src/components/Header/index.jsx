@@ -6,21 +6,23 @@ import imgLogo from '../../imagens/image0 1logo.png'
 
 const Header = () => {
 
+  // Estados para controlar se o usuário está logado e o ID do usuário
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState('');
 
 
   useEffect(() => {
-    const storedUserData = JSON.parse(localStorage.getItem('userData'));
+    const storedUserData = JSON.parse(localStorage.getItem('userData')); // Obtém os dados do usuário do armazenamento local
     if (storedUserData) {
-      setIsLoggedIn(true);
-      setUserId(storedUserData._id);
+      setIsLoggedIn(true); // Define como logado se os dados do usuário estiverem presentes
+      setUserId(storedUserData._id); // Define o ID do usuário
     } else {
-      setIsLoggedIn(false);
-      setUserId('');
+      setIsLoggedIn(false); // Define como não logado se os dados do usuário não estiverem presentes
+      setUserId('');// Define o ID do usuário como vazio
     }
   }, []);
 
+  // Função para lidar com o clique no link "Quero doar"
   const handleQueroDoarClick = () => {
     if (!isLoggedIn) {
       window.location.href = '/login';

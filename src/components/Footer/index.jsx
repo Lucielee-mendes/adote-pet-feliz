@@ -6,21 +6,21 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 const Footer = () => {
-    const [userId, setUserId] = useState('');
+    const [userId, setUserId] = useState('');// Estado para armazenar o ID do usuário logado
 
-
+//verificar se há um usuário logado
     useEffect(() => {
-        const storedUserData = JSON.parse(localStorage.getItem('userData'));
+        const storedUserData = JSON.parse(localStorage.getItem('userData')); // Obtém os dados do usuário do armazenamento local
         if (storedUserData) {
-            setUserId(storedUserData._id);
+            setUserId(storedUserData._id); // Define o ID do usuário se estiver logado
         } else {
-            setUserId('');
+            setUserId('');// Define o ID do usuário como vazio se não estiver logado
         }
     }, []);
 
     const handleProfileLinkClick = () => {
         if (!userId) {
-            window.location.href = '/login';
+            window.location.href = '/login'; // Redireciona para a página de login se o usuário não estiver logado
         }
     };
 

@@ -10,35 +10,44 @@ import { Link } from 'react-router-dom';
 const LoginPage = () => {
     const history = useNavigate();
 
+    // Definição do estado local
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errorLogin, setErrorLogin] = useState('');
 
+    // Função para validar o formato do email
     const validateEmail = (inputEmail) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(inputEmail);
     };
 
+    // Função para lidar com o processo de login
     const handleLogin = async () => {
+        // Verifica se os campos estão vazios
         if (email.length === 0 || password.length === 0) {
             setErrorLogin('Preencha todos os campos');
             return;
         }
 
+        // Verifica se o formato do email é válido
         if (!validateEmail(email)) {
             setErrorLogin('E-mail inválido');
             return;
         }
 
         try {
+            // Requisição para o backend para autenticar o usuário
             const response = await axios.post('http://localhost:3001/login', {
                 email,
                 senha: password,
             });
 
             if (response.status === 200 && response.data.message === 'Login bem-sucedido') {
+                // Verifica se o login foi bem-sucedido
                 if (response.data.user && response.data.user._id) {
+                     // Salva os dados do usuário no localStorage
                     localStorage.setItem('userData', JSON.stringify(response.data.user));
+                    // Navega para a página de perfil do usuário
                     history(`/perfilUsuario/${response.data.user._id}`);
                 } else {
                     setErrorLogin('Credenciais inválidas');

@@ -13,8 +13,10 @@ import { Link } from 'react-router-dom';
 
 const HomePage = () => {
 
+    // Definição do estado local para armazenar dados dos pets
     const [petData, setPetData] = useState([]);
 
+    //buscar os dados dos pets ao carregar a página
     useEffect(() => {
         const fetchPets = async () => {
             try {

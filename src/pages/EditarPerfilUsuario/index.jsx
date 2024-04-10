@@ -8,7 +8,10 @@ import imgPerfil from '../../imagens/download (2) 1.png'
 
 const EditarPerfil = () => {
 
+     // Obtenção do parâmetro userId da URL
     const { userId } = useParams();
+
+    // Estados locais para armazenar dados do formulário
     const [nome, setNome] = useState('');
     const [whatsapp, setWhatsapp] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -25,6 +28,7 @@ const EditarPerfil = () => {
     const [cidade, setCidade] = useState([])
     const [estadoEditado, setEstadoEditado] = useState('')
 
+    // Função para buscar estados da API do IBGE ao carregar o componente
     useEffect(() => {
         const fetchStates = async () => {
             try {
@@ -55,7 +59,7 @@ const EditarPerfil = () => {
         };
         fetchStates();
 
-
+        // Verifica se o estado selecionado possui cidades correspondentes
         const estadoEncontrado = estados.find(estado => estado?.sigla === estadoSelecionado);
 
         if(estadoEncontrado !== undefined && estadoSelecionado === estadoEncontrado?.sigla){
@@ -75,7 +79,7 @@ const EditarPerfil = () => {
 
     }, [estadoSelecionado, estados])
 
-
+    //Função para carregar os dados do perfil do usuário ao carregar o componente
     useEffect(() => {
         const fetchPerfil = async () => {
             try {
@@ -105,15 +109,19 @@ const EditarPerfil = () => {
         fetchPerfil();
     }, [userId]);
     
-
+    // Função para lidar com a mudança de estado selecionado no formulário
     const handleEstadoChange = (event) => {
         setEstadoSelecionado(event.target.value);
         setCidadeSelecionada(''); // Resetar a cidade ao trocar de estado
     };
 
+     // Função para lidar com a mudança de cidade selecionada no formulário
     const handleCidadeChange = (event) => {
         setCidadeSelecionada(event.target.value);
     };
+
+    
+    // Função para lidar com a mudança de checkbox
     const handleCheckboxChange = (value) => {
         setPossuiCasaTelada(value);
     };
@@ -126,6 +134,7 @@ const EditarPerfil = () => {
         setPossuiDisponibilidadeVacinar(!possuiDisponibilidadeVacinar);
     };
 
+    // Função para lidar com a mudança de arquivo de imagem
     const handleFileChange = (event) => {
         const file = event.target.files[0];
         setFotoPrincipal(file);
@@ -141,6 +150,7 @@ const EditarPerfil = () => {
         }
     };
 
+    // Função para lidar com o envio do formulário de edição do perfil
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -167,7 +177,6 @@ const EditarPerfil = () => {
             setError("")
         } catch (error) {
             console.error('Erro ao editar perfil:', error);
-            console.log({error})
             setError('Erro ao editar perfil. Por favor, tente novamente.');
         }
     };
