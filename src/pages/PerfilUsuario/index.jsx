@@ -82,7 +82,7 @@ const PerfilUsuario = () => {
         try {
             const response = await axios.delete(`http://localhost:3001/perfilPet/${petId}`);
             if (response.status === 200) {
-                alert('Cadastro do pet excluído com sucesso.');
+                alert('Pet excluído com sucesso.');
                 // Atualizar a lista de pets após a exclusão bem-sucedida
                 const updatedPetData = petData.filter(pet => pet._id !== petId);
                 setPetData(updatedPetData);

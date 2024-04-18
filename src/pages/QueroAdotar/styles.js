@@ -84,10 +84,11 @@ button{
     border: 0rem;
     color: #FFFF;
     border-radius: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.5;
     font-weight: bold;
     cursor: pointer;
     margin: 0rem 1rem;
+    padding: 8px;
     }
 
 

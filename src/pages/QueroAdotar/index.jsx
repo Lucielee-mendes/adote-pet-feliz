@@ -32,6 +32,7 @@ const QueroAdotar = () => {
                     throw new Error('Erro ao buscar estados');
                 }
                 const states = await response.json();
+        
                 setEstados(states)
             } catch (error) {
                 console.error('Erro ao buscar estados:', error);
@@ -84,9 +85,9 @@ const QueroAdotar = () => {
             const especieMatch = especie === '' || especie === 'todos' || item.especie.toLowerCase() === especie.toLowerCase();
             const sexoMatch = sexo === '' || sexo === 'todos' || item.sexo.toLowerCase() === sexo.toLowerCase();
             const porteMatch = porte === '' || porte === 'todos' || item.porte.toLowerCase() === porte.toLowerCase();
-            const estadoMatch = itemEstado === '' || estadoFilter === 'todos' || item.estado.toLowerCase() === itemEstado.sigla.toLowerCase();
+            const estadoMatch = !estadoFilter || estadoFilter === 'todos' || item.estado?.toLowerCase() === itemEstado?.sigla?.toLowerCase();
             const castradoMatch = castrado === null || item.cuidadosVeterinarios?.castrado.toString() === castrado.toString();
-            const cidadeMatch = cidade === '' || cidade === 'todos' || item.cidade.toLowerCase() === cidade.toLowerCase();
+            const cidadeMatch = cidade === '' || cidade === 'todos' || item.cidade?.toLowerCase() === cidade.toLowerCase();
 
             return nomeMatch && especieMatch && sexoMatch && porteMatch && estadoMatch && castradoMatch && cidadeMatch;
         });
@@ -96,6 +97,17 @@ const QueroAdotar = () => {
     const handleSearchClick = () => {
         const filteredData = filterPets();
         setFilterData(filteredData);
+    };
+
+    // Função para limpar todos os filtros
+    const clearFilters = () => {
+        setSearch("");
+        setEspecie("");
+        setSexo("");
+        setPorte("");
+        setEstado("");
+        setCidadeFilter("");
+        setCastrado(null);
     };
 
     // Função para a paginação
@@ -169,9 +181,10 @@ const QueroAdotar = () => {
                             </select>
                             <input placeholder='Nome do animal' value={search} onChange={(e) => setSearch(e.target.value)} />
 
-                            <button
-                                onClick={() => handleSearchClick()}
-                            >Buscar</button>
+                            <button onClick={() => handleSearchClick()}>Buscar</button>
+                            <button onClick={clearFilters}>Limpar Filtros</button>
+
+
                         </div>
 
                     </S.Filter>
