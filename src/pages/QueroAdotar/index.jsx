@@ -86,7 +86,7 @@ const QueroAdotar = () => {
             const sexoMatch = sexo === '' || sexo === 'todos' || item.sexo.toLowerCase() === sexo.toLowerCase();
             const porteMatch = porte === '' || porte === 'todos' || item.porte.toLowerCase() === porte.toLowerCase();
             const estadoMatch = !estadoFilter || estadoFilter === 'todos' || item.estado?.toLowerCase() === itemEstado?.sigla?.toLowerCase();
-            const castradoMatch = castrado === null || item.cuidadosVeterinarios?.castrado.toString() === castrado.toString();
+            const castradoMatch = castrado === null || (castrado === "true" && item.cuidadosVeterinarios?.castrado) || (castrado === "false" && !item.cuidadosVeterinarios?.castrado);
             const cidadeMatch = cidade === '' || cidade === 'todos' || item.cidade?.toLowerCase() === cidade.toLowerCase();
 
             return nomeMatch && especieMatch && sexoMatch && porteMatch && estadoMatch && castradoMatch && cidadeMatch;
