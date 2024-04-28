@@ -8,6 +8,8 @@ import imgContato from '../../imagens/download (4).png'
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import getBackendUrl from '../../utils/backendConfig';
+
 
 
 
@@ -24,7 +26,7 @@ const PerfilPet = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/perfilPet/${petId}`);
+                const response = await axios.get(`${getBackendUrl()}/perfilPet/${petId}`);
                 setPetData(response.data);
                 setPetData(response.data.perfilPet);
                 setImages(response.data.perfilPet.fotos);
@@ -45,7 +47,7 @@ const PerfilPet = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/perfilUsuario/${petData.proprietario}`);
+                const response = await axios.get(`${getBackendUrl()}/perfilUsuario/${petData.proprietario}`);
 
                 setUserData(response.data);
             } catch (error) {
@@ -79,7 +81,7 @@ const PerfilPet = () => {
                     <S.secaoPerfil>
 
                                   <img className='imgPerfil' alt='img-pet'
-                            src={`http://localhost:3001/getImagem/${petData?.fotos[0]?.file}` || images} />
+                            src={`${getBackendUrl()}/getImagem/${petData?.fotos[0]?.file}` || images} />
 
                             
 
@@ -87,7 +89,7 @@ const PerfilPet = () => {
                       {petData?.fotos?.map((foto)=>{
                             return(
                                   <img className='imgpets' alt='img-pet'
-                            src={`http://localhost:3001/getImagem/${foto.file}` || images} />
+                            src={`${getBackendUrl()}/getImagem/${foto.file}` || images} />
 
                             )
                         })}

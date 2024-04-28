@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
-import imgPerfil from '../../imagens/download (2) 1.png'
+import imgPerfil from '../../imagens/download (2) 1.png';
+import getBackendUrl from '../../utils/backendConfig';
+
 
 const EditarPerfil = () => {
 
@@ -27,6 +29,7 @@ const EditarPerfil = () => {
     const [estados, setEstados] = useState([])
     const [cidade, setCidade] = useState([])
     const [estadoEditado, setEstadoEditado] = useState('')
+    
 
     // Função para buscar estados da API do IBGE ao carregar o componente
     useEffect(() => {
@@ -83,7 +86,7 @@ const EditarPerfil = () => {
     useEffect(() => {
         const fetchPerfil = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/perfilUsuario/${userId}`);
+                const response = await axios.get(`${getBackendUrl()}/perfilUsuario/${userId}`);
                 const perfil = response.data;
                 setNome(perfil.userData.nome || '');
                 setWhatsapp(perfil.userData.whatsApp   || '');
@@ -170,7 +173,7 @@ const EditarPerfil = () => {
 
 
         try {
-            const response = await axios.put(`http://localhost:3001/editarPerfil/${userId}`, formData);
+            const response = await axios.put(`${getBackendUrl()}/editarPerfil/${userId}`, formData);
             if(response.status === 200){
                 window.location.href=`/perfilUsuario/${userId}`
             }

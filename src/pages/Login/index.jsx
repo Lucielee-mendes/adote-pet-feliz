@@ -5,6 +5,8 @@ import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import getBackendUrl from '../../utils/backendConfig';
+
 
 
 const LoginPage = () => {
@@ -37,7 +39,7 @@ const LoginPage = () => {
 
         try {
             // Requisição para o backend para autenticar o usuário
-            const response = await axios.post('http://localhost:3001/login', {
+            const response = await axios.post(`${getBackendUrl()}/login`, {
                 email,
                 senha: password,
             });

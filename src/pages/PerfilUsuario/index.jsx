@@ -8,6 +8,8 @@ import axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import getBackendUrl from '../../utils/backendConfig';
+
 
 
 const PerfilUsuario = () => {
@@ -27,7 +29,7 @@ const PerfilUsuario = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:3001/perfilUsuario/${userId}`);
+                const response = await axios.get(`${getBackendUrl()}/perfilUsuario/${userId}`);
 
                 const storedUserData = JSON.parse(localStorage.getItem('userData'));
 
@@ -51,7 +53,7 @@ const PerfilUsuario = () => {
     // useEffect para buscar a imagem principal do usuário
     useEffect(() => {
         const getImage = async () => {
-            const response = await axios.get(`http://localhost:3001/getImagem/${userData?.fotoPrincipal}`);
+            const response = await axios.get(`${getBackendUrl()}/getImagem/${userData?.fotoPrincipal}`);
             setImage(response.config.url)
         }
         userData && getImage()
@@ -66,7 +68,7 @@ const PerfilUsuario = () => {
  // Função para lidar com a exclusão da conta do usuário
     const handleDeleteAccount = async () => {
         try {
-            const response = await axios.delete(`http://localhost:3001/excluirConta/${userId}`);
+            const response = await axios.delete(`${getBackendUrl()}/excluirConta/${userId}`);
             if (response.status === 200) {
                 alert('Conta excluída com sucesso');
                 handleLogout(); // Redireciona para a página de login após a exclusão da conta
@@ -80,7 +82,7 @@ const PerfilUsuario = () => {
     // Função para lidar com a exclusão de um pet
     const handleDeletePet = async (petId) => {
         try {
-            const response = await axios.delete(`http://localhost:3001/perfilPet/${petId}`);
+            const response = await axios.delete(`${getBackendUrl()}/perfilPet/${petId}`);
             if (response.status === 200) {
                 alert('Pet excluído com sucesso.');
                 // Atualizar a lista de pets após a exclusão bem-sucedida
@@ -98,7 +100,7 @@ const PerfilUsuario = () => {
     useEffect(() => {
         const fetchPets = async (userId) => {
             try {
-                let url = 'http://localhost:3001/pets';
+                let url = `${getBackendUrl()}/pets`;
                 if (userId) {
                     url += `?userId=${userId}`;
                 }
@@ -177,7 +179,7 @@ const PerfilUsuario = () => {
                             {petData && petData.length > 0 ? (
                                 petData.map((pet) => (
                                     <div className='card'>
-                                        <img src={`http://localhost:3001/getImagem/${pet.fotos[0].file}`} alt={pet._id}
+                                        <img src={`${getBackendUrl()}/getImagem/${pet.fotos[0].file}`} alt={pet._id}
                                             onClick={() => window.location.href = `http://localhost:3000/perfilPet/${pet._id}`} />
                                         <div className='card-info'>
                                             <p className='name'>{pet.nomePet}</p>

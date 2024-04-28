@@ -4,6 +4,8 @@ import imgLogo from '../../imagens/image0 1logo.png'
 import { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import getBackendUrl from '../../utils/backendConfig';
+
 
 
 
@@ -31,7 +33,7 @@ const EsqueceuSenha = () => {
             }
             
             // Envia uma solicitação para redefinir a senha
-            const response = await axios.post('http://localhost:3001/esqueceuSenha', { email, senha });
+            const response = await axios.post(`${getBackendUrl()}/esqueceuSenha`, { email, senha });
 
 
             if (response.status === 200) {

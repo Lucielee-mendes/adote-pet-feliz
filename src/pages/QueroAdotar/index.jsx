@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
+import getBackendUrl from '../../utils/backendConfig';
+
 
 
 const QueroAdotar = () => {
@@ -66,7 +68,7 @@ const QueroAdotar = () => {
     useEffect(() => {
         const fetchPets = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/pets');
+                const response = await axios.get(`${getBackendUrl()}/pets`);
                 setPetData(response.data);
                 setFilterData(response.data)
             } catch (error) {
@@ -196,7 +198,7 @@ const QueroAdotar = () => {
                             <Link id="petLink" key={key} to={`/perfilPet/${val._id}`}>
 
                                 <div className='card'>
-                                    <img src={`http://localhost:3001/getImagem/${val?.fotos[0]?.file}`} alt={val.nomePet} />
+                                    <img src={`${getBackendUrl()}/getImagem/${val?.fotos[0]?.file}`} alt={val.nomePet} />
                                     <div className='card-info'>
                                         <p className='name'>{val.nomePet}</p>
                                         <div className='groupInfos'>

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import getBackendUrl from '../../utils/backendConfig';
 
 
 // Componente de Cadastro
@@ -147,7 +147,7 @@ const Cadastro = () => {
 
                 try {
                      // Requisição POST para cadastrar o usuário
-                    const response = await axios.post('http://localhost:3001/cadastro', formData);
+                    const response = await axios.post(`${getBackendUrl()}/cadastro`, formData);
 
                     if (response.status === 201) {
                         // Armazenar dados no localStorage após o cadastro bem-sucedido

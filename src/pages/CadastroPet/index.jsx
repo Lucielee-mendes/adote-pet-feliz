@@ -6,6 +6,8 @@ import Header from '../../components/Header';
 import Footer from '../../components/Footer';
 import imgPerfil from '../../imagens/pet-avatar 1.png'
 import { Link } from 'react-router-dom';
+import getBackendUrl from '../../utils/backendConfig';
+
 
 
 const CadastroPet = () => {
@@ -245,7 +247,7 @@ const CadastroPet = () => {
         formData.append('json', JSON.stringify(petData)); // Adicionar os dados do pet ao objeto FormData
             try {
                  // Enviar os dados do pet para o servidor
-                const response = await axios.post(`http://localhost:3001/cadastroPet/${userId}`, formData);
+                const response = await axios.post(`${getBackendUrl()}/cadastroPet/${userId}`, formData);
                 if (response.status === 201 ) {
                     // Limpar os dados do formulário e exibir mensagem de sucesso após o cadastro ser realizado com sucesso
                     clearData()

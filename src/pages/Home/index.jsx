@@ -9,6 +9,8 @@ import imgCard3 from "../../imagens/card3.png"
 import imgCard4 from "../../imagens/card4.png"
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import getBackendUrl from '../../utils/backendConfig';
+
 
 
 const HomePage = () => {
@@ -20,7 +22,7 @@ const HomePage = () => {
     useEffect(() => {
         const fetchPets = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/pets');
+                const response = await axios.get(`${getBackendUrl()}/pets`);
                 setPetData(response.data);
             } catch (error) {
                 console.error('Erro ao buscar pets:', error);
@@ -52,7 +54,7 @@ const HomePage = () => {
                             limitedPets.map((pet, index) => (
                                 <Link id="petLink" key={index} to={`/perfilPet/${pet._id}`}>
                                     <div className='card'>
-                                        <img src={`http://localhost:3001/getImagem/${pet?.fotos[0]?.file}`} alt={pet.nomePet} />
+                                        <img src={`${getBackendUrl()}/getImagem/${pet?.fotos[0]?.file}`} alt={pet.nomePet} />
                                         <div className='card-info'>
                                             <p className='name'>{pet.nomePet}</p>
                                             <div className='groupInfos'>
